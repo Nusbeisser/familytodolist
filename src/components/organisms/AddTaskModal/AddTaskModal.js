@@ -39,7 +39,7 @@ const StyledButton = styled(Button)`
   margin-top: 110px;
 `;
 // zmienić na klasę i przerzucić isAllDayTaskHandler i isAllDayTask tutaj
-const MyModal = ({ hideModal, isAllDayTaskHandler, isAllDayTask, addTask, shownAccId }) => (
+const AddTaskModal = ({ hideModal, isAllDayTaskHandler, isAllDayTask, addTask, shownAccId }) => (
   <StyledWrapper>
     <StyledButtonClose onClick={hideModal} />
     <Formik
@@ -98,4 +98,4 @@ const MyModal = ({ hideModal, isAllDayTaskHandler, isAllDayTask, addTask, shownA
   </StyledWrapper>
 );
 
-export default MyModal;
+export default AddTaskModal;

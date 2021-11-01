@@ -7,7 +7,7 @@ import AccountContainer from '../components/atoms/AccountContainer/AccountContai
 import Sidebar from '../components/organisms/Sidebar/Sidebar';
 import MainTemplate from '../templates/MainTemplate';
 import Calendar from '../components/organisms/Calendar/Calendar';
-import MyModal from '../components/organisms/Modal/Modal';
+import AddTaskModal from '../components/organisms/AddTaskModal/AddTaskModal';
 import { addTask as addTaskAction } from '../actions/index';
 
 const StyledWrapper = styled.div`
@@ -50,9 +50,9 @@ class AddTasks extends React.Component {
   };
 
   isAllDayTaskHandler = () => {
-    this.setState({
-      isAllDayTask: !this.state.isAllDayTask,
-    });
+    this.setState((prevState) => ({
+      isAllDayTask: !prevState.isAllDayTask,
+    }));
   };
 
   chooseAccount = (id) => {
@@ -89,10 +89,11 @@ class AddTasks extends React.Component {
           <Calendar
             showModal={this.showModal}
             events={childAccs.filter((item) => item.id === shownAccId)}
+            shownAccId={shownAccId}
           />
         </StyledCalendarWrapper>
         {isModalOpen ? (
-          <MyModal
+          <AddTaskModal
             hideModal={this.hideModal}
             isAllDayTaskHandler={this.isAllDayTaskHandler}
             isAllDayTask={isAllDayTask}
@@ -112,13 +113,11 @@ const mapDispatchToProps = (dispatch) => ({
 });
 // ^^^ nie przekazuje id z modala tu trzeba pomodzić
 AddTasks.propTypes = {
-  events: propTypes.arrayOf(propTypes.object),
   addTask: propTypes.func.isRequired,
   childAccs: propTypes.arrayOf(propTypes.object),
 };
 
 AddTasks.defaultProps = {
-  events: null,
   childAccs: null,
 };
 

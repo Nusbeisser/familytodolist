@@ -70,8 +70,9 @@ AccountContainer.propTypes = {
   points: propTypes.number.isRequired,
   tasksDone: propTypes.number.isRequired,
   activeTasks: propTypes.number.isRequired,
-  id: propTypes.number.isRequired,
+  id: propTypes.string.isRequired,
   tasks: propTypes.bool,
+  chooseAccount: propTypes.func.isRequired,
 };
 
 AccountContainer.defaultProps = {

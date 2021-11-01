@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import update from 'immutability-helper';
-import { ADD_TASK } from '../actions/index';
+import { ADD_TASK, DELETE_TASK } from '../actions/index';
 
 const initialState = {
   childAccs: [
@@ -10,7 +10,7 @@ const initialState = {
       points: 10,
       tasksDone: 5,
       activeTasks: 999,
-      events: [{ id: 'abcd', title: 'event Luki', date: '2021-10-17' }],
+      events: [{ id: 'abcd', title: 'event Luki', date: '2021-11-07', points: 50 }],
     },
     {
       id: 2,
@@ -18,7 +18,7 @@ const initialState = {
       points: 100,
       tasksDone: 50,
       activeTasks: 5,
-      events: [{ title: 'event Mika', date: '2021-10-17' }],
+      events: [{ title: 'event Mika', date: '2021-11-07' }],
     },
     {
       id: '3jhjk654654hhygf',
@@ -26,7 +26,7 @@ const initialState = {
       points: 50,
       tasksDone: 30,
       activeTasks: 10,
-      events: [{ title: 'event Zuzia', date: '2021-10-17' }],
+      events: [{ title: 'event Zuzia', date: '2021-11-07' }],
     },
   ],
   events: [
@@ -65,6 +65,27 @@ const rootReducer = (state = initialState, action) => {
           },
         },
       });
+    case DELETE_TASK: {
+      console.log(state.childAccs.findIndex((item) => item.id === action.payload.shownAccId));
+
+      console.log(
+        state.childAccs[
+          state.childAccs.findIndex((item) => item.id === action.payload.shownAccId)
+        ].events.filter((item) => item.id !== action.payload.taskId),
+      );
+
+      return update(state, {
+        childAccs: {
+          [state.childAccs.findIndex((item) => item.id === action.payload.shownAccId)]: {
+            events: {
+              $set: state.childAccs[
+                state.childAccs.findIndex((item) => item.id === action.payload.shownAccId)
+              ].events.filter((item) => item.id !== action.payload.taskId),
+            },
+          },
+        },
+      });
+    }
 
     default:
       return state;
