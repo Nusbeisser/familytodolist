@@ -1,28 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import Sidebar from '../components/organisms/Sidebar/Sidebar';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/atoms/Button/Button';
 import AccountContainer from '../components/atoms/AccountContainer/AccountContainer';
 import AddAccount from '../components/molecules/AddAccount/AddAccount';
-
-const AccList = [
-  {
-    id: 1,
-    name: 'Luki',
-    points: 10,
-    tasksDone: 5,
-    activeTasks: 999,
-  },
-  {
-    id: 2,
-    name: 'Mika',
-    points: 100,
-    tasksDone: 50,
-    activeTasks: 5,
-  },
-  { id: 3, name: 'Zuzia', points: 50, tasksDone: 30, activeTasks: 10 },
-];
+import {
+  registerChild as registerChildAction,
+  deleteChild as deleteChildAction,
+} from '../actions/index';
 
 const StyledGrid = styled.div`
   position: absolute;
@@ -53,27 +41,61 @@ class Menagement extends React.Component {
 
   render() {
     const { isAddAccountOpen } = this.state;
+    const { childAccs } = this.props;
+    const { userID } = this.props;
+    const { registerChild } = this.props;
+    const { deleteChild } = this.props;
     return (
       <>
         <MainTemplate />
         <Sidebar />
         <StyledGrid>
-          {AccList.map(({ name, points, tasksDone, activeTasks, id }) => (
+          {childAccs.map(({ name, points, tasksDone, activeTasks, _id }) => (
             <AccountContainer
-              id={id}
+              id={_id}
               name={name}
               points={points}
               tasksDone={tasksDone}
               activeTasks={activeTasks}
-              key={id}
+              key={_id}
+              deleteChild={deleteChild}
+              userID={userID}
             />
           ))}
         </StyledGrid>
-        {isAddAccountOpen ? <AddAccount closeAddAccount={this.closeAddAccount} /> : null}
+        {isAddAccountOpen ? (
+          <AddAccount
+            closeAddAccount={this.closeAddAccount}
+            registerChild={registerChild}
+            userID={userID}
+          />
+        ) : null}
         <StyledButton onClick={this.openAddAccount}>Add account</StyledButton>
       </>
     );
   }
 }
 
-export default Menagement;
+Menagement.propTypes = {
+  childAccs: propTypes.arrayOf(propTypes.shape).isRequired,
+  registerChild: propTypes.func.isRequired,
+  userID: propTypes.string,
+};
+
+Menagement.defaultProps = {
+  userID: null,
+};
+
+const mapStateToProps = ({ childAccs = null, userID = null, state = null }) => ({
+  childAccs,
+  userID,
+  state,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  registerChild: (name, username, password, userID, accessLevel) =>
+    dispatch(registerChildAction(name, username, password, userID, accessLevel)),
+  deleteChild: (id, userID) => dispatch(deleteChildAction(id, userID)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menagement);

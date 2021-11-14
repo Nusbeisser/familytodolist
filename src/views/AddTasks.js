@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'react-redux';
@@ -8,7 +9,11 @@ import Sidebar from '../components/organisms/Sidebar/Sidebar';
 import MainTemplate from '../templates/MainTemplate';
 import Calendar from '../components/organisms/Calendar/Calendar';
 import AddTaskModal from '../components/organisms/AddTaskModal/AddTaskModal';
-import { addTask as addTaskAction } from '../actions/index';
+import {
+  addTask as addTaskAction,
+  chooseAccount as chooseAccountAction,
+  fetchChilds as fetchChildsAction,
+} from '../actions/index';
 
 const StyledWrapper = styled.div`
   position: absolute;
@@ -33,9 +38,13 @@ const StyledCalendarWrapper = styled.div`
 class AddTasks extends React.Component {
   state = {
     isModalOpen: false,
-    shownAccId: 1,
     isAllDayTask: true,
   };
+
+  componentDidMount() {
+    const { fetchChilds } = this.props;
+    fetchChilds();
+  }
 
   showModal = () => {
     this.setState({
@@ -55,40 +64,42 @@ class AddTasks extends React.Component {
     }));
   };
 
-  chooseAccount = (id) => {
-    this.setState({
-      shownAccId: id,
-    });
-  };
+  // chooseAccount = (id) => {
+  //   this.setState({
+  //     shownAccId: id,
+  //   });
+  // };
 
   render() {
     const { isModalOpen } = this.state;
     const { isAllDayTask } = this.state;
     const { addTask } = this.props;
     const { childAccs } = this.props;
-    const { shownAccId } = this.state;
+    const { shownAccId } = this.props;
+    const { chooseAccount } = this.props;
+
     return (
       <>
         <MainTemplate />
         <Sidebar />
         <StyledWrapper>
-          {childAccs.map(({ name, points, tasksDone, activeTasks, id }) => (
+          {childAccs.map(({ name, points, tasksDone, activeTasks, _id }) => (
             <AccountContainer
-              id={id}
+              id={_id}
               name={name}
               points={points}
               tasksDone={tasksDone}
               activeTasks={activeTasks}
-              key={id}
+              key={_id}
               tasks
-              chooseAccount={this.chooseAccount}
+              chooseAccount={chooseAccount}
             />
           ))}
         </StyledWrapper>
         <StyledCalendarWrapper>
           <Calendar
             showModal={this.showModal}
-            events={childAccs.filter((item) => item.id === shownAccId)}
+            events={childAccs.filter((item) => item._id === shownAccId)}
             shownAccId={shownAccId}
           />
         </StyledCalendarWrapper>
@@ -106,19 +117,31 @@ class AddTasks extends React.Component {
   }
 }
 
-const mapStateToProps = ({ childAccs, events }) => ({ childAccs, events });
+const mapStateToProps = ({ childAccs, events, shownAccId }) => ({
+  childAccs,
+  events,
+  shownAccId,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   addTask: (values, shownAccId) => dispatch(addTaskAction(values, shownAccId)),
+  chooseAccount: (id) => dispatch(chooseAccountAction(id)),
+  fetchChilds: (id) => dispatch(fetchChildsAction(id)),
 });
 // ^^^ nie przekazuje id z modala tu trzeba pomodzić
 AddTasks.propTypes = {
   addTask: propTypes.func.isRequired,
   childAccs: propTypes.arrayOf(propTypes.object),
+  fetchChilds: propTypes.func,
+  shownAccId: propTypes.string,
+  chooseAccount: propTypes.func,
 };
 
 AddTasks.defaultProps = {
   childAccs: null,
+  fetchChilds: null,
+  shownAccId: null,
+  chooseAccount: null,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTasks);

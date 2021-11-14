@@ -10,6 +10,7 @@ import Button from '../../components/atoms/Button/Button';
 import MainPage from '../MainPage';
 import Management from '../Management';
 import AddTasks from '../AddTasks';
+import InitialView from '../InitialView';
 
 const StyledButton = styled(Button)`
   position: absolute;
@@ -21,6 +22,7 @@ const Root = () => (
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
+        <Route exact path="/authenticate" component={InitialView} />
         <Route exact path="/" component={MainPage} />
         <Route path="/management" component={Management} />
         <Route path="/addtasks" component={AddTasks} />

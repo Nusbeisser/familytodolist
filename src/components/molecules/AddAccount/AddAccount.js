@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
+import { Formik, Form } from 'formik';
 import Input from '../../atoms/Input/Input';
 import ButtonClose from '../../atoms/ButtonClose/ButtonClose';
 import Button from '../../atoms/Button/Button';
@@ -31,18 +32,57 @@ const StyledButton = styled(Button)`
   margin-left: 110px;
 `;
 
-const AddAccount = ({ closeAddAccount }) => (
+const AddAccount = ({ closeAddAccount, registerChild, userID }) => (
   <StyledWrapper>
     <StyledButtonClose onClick={closeAddAccount} />
-    <StyledInput placeholder="Name" type="text" />
-    <StyledInput placeholder="Login" type="login" />
-    <StyledInput placeholder="Password" type="password" />
-    <StyledButton>CREATE ACCOUNT</StyledButton>
+    <Formik
+      initialValues={{ name: '', username: '', password: '' }}
+      onSubmit={({ name, username, password }) => {
+        console.log(name, username, password);
+        const accessLevel = 0;
+        registerChild(name, username, password, userID, accessLevel);
+      }}
+    >
+      {({ handleChange, handleBlur, values }) => (
+        <Form>
+          <StyledInput
+            placeholder="Name"
+            type="text"
+            name="name"
+            value={values.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <StyledInput
+            placeholder="Login"
+            type="login"
+            name="username"
+            value={values.username}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <StyledInput
+            placeholder="Password"
+            type="password"
+            name="password"
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <StyledButton type="submit">CREATE ACCOUNT</StyledButton>
+        </Form>
+      )}
+    </Formik>
   </StyledWrapper>
 );
 
 AddAccount.propTypes = {
   closeAddAccount: propTypes.func.isRequired,
+  registerChild: propTypes.func.isRequired,
+  userID: propTypes.string,
+};
+AddAccount.defaultProps = {
+  userID: null,
 };
 
 export default AddAccount;

@@ -6,6 +6,7 @@ const MainPage = () => (
   <>
     <MainTemplate />
     <Sidebar />
+    <h1>Dzień dobry, strona powitalna</h1>
   </>
 );
 

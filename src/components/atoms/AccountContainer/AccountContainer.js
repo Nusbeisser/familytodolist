@@ -1,7 +1,9 @@
+/* eslint-disable no-alert */
 import React from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
 import SampleAvatar from '../../../assets/avatar.png';
+import deleteIcon from '../../../assets/delete.png';
 
 const StyledWrapper = styled.div`
   height: 450px;
@@ -28,6 +30,13 @@ const StyledAvatar = styled.img`
   display: inline-block;
 `;
 
+const StyledDeleteIcon = styled.img`
+  position: relative;
+  top: -40px;
+  left: 500px;
+  display: inline-block;
+`;
+
 const StyledName = styled.div`
   position: relative;
   height: 150px;
@@ -45,7 +54,17 @@ const StyledInfo = styled.div`
   font-size: 40px;
 `;
 
-const AccountContainer = ({ name, points, tasksDone, activeTasks, id, tasks, chooseAccount }) =>
+const AccountContainer = ({
+  name,
+  points,
+  tasksDone,
+  activeTasks,
+  id,
+  tasks,
+  chooseAccount,
+  deleteChild,
+  userID,
+}) =>
   tasks ? (
     <StyledHeading style={{ width: '15vw' }} id={id} onClick={() => chooseAccount(id)}>
       <StyledAvatar src={SampleAvatar} />
@@ -56,6 +75,15 @@ const AccountContainer = ({ name, points, tasksDone, activeTasks, id, tasks, cho
       <StyledHeading>
         <StyledAvatar src={SampleAvatar} />
         <StyledName>{name}</StyledName>
+        <StyledDeleteIcon
+          id={id}
+          src={deleteIcon}
+          onClick={(e) => {
+            if (confirm('Are you sure, you want delete this account?')) {
+              deleteChild(e.target.id, userID);
+            }
+          }}
+        />
       </StyledHeading>
       <StyledInfo>
         <p>Points: {points}</p>
@@ -72,11 +100,14 @@ AccountContainer.propTypes = {
   activeTasks: propTypes.number.isRequired,
   id: propTypes.string.isRequired,
   tasks: propTypes.bool,
-  chooseAccount: propTypes.func.isRequired,
+  chooseAccount: propTypes.func,
+  deleteChild: propTypes.func.isRequired,
+  userID: propTypes.string.isRequired,
 };
 
 AccountContainer.defaultProps = {
   tasks: null,
+  chooseAccount: null,
 };
 
 export default AccountContainer;

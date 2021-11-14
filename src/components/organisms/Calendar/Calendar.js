@@ -7,7 +7,10 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { connect } from 'react-redux';
 import TaskModal from '../../molecules/TaskModal/TaskModal';
-import { deleteTask as deleteTaskAction } from '../../../actions/index';
+import {
+  deleteTask as deleteTaskAction,
+  confirmDoneTask as confirmDoneTaskAction,
+} from '../../../actions/index';
 
 class Calendar extends React.Component {
   state = {
@@ -41,6 +44,7 @@ class Calendar extends React.Component {
     const { task } = this.state;
     const { deleteTask } = this.props;
     const { shownAccId } = this.props;
+    const { confirmDoneTask } = this.props;
     console.log(events);
     return (
       <>
@@ -64,7 +68,7 @@ class Calendar extends React.Component {
           }}
           plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
           initialView="dayGridMonth"
-          events={event.events}
+          events={event ? event.events : 'null'}
           selectable
           editable
           dayMaxEventRows
@@ -77,6 +81,7 @@ class Calendar extends React.Component {
             hideModal={this.hideModal}
             deleteTask={deleteTask}
             shownAccId={shownAccId}
+            confirmDoneTask={confirmDoneTask}
           />
         ) : null}
       </>
@@ -86,6 +91,8 @@ class Calendar extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   deleteTask: (taskId, shownAccId) => dispatch(deleteTaskAction(taskId, shownAccId)),
+  confirmDoneTask: (taskId, shownAccId, points) =>
+    dispatch(confirmDoneTaskAction(taskId, shownAccId, points)),
 });
 
 export default connect(null, mapDispatchToProps)(Calendar);

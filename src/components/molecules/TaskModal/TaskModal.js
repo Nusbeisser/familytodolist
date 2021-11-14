@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
@@ -18,33 +19,50 @@ const StyledWrapper = styled.div`
   z-index: 999;
 `;
 const StyledButtonClose = styled(ButtonClose)`
+  position: absolute;
+  top: 50px;
   margin-left: 500px;
   margin-bottom: 30px;
 `;
 const StyledButtonIcon = styled(ButtonIcon)``;
 
-const TaskModal = ({ task, hideModal, deleteTask, shownAccId }) => (
+const TaskModal = ({ task, hideModal, deleteTask, shownAccId, confirmDoneTask }) => (
   <StyledWrapper>
+    <h1>Task details</h1>
     <StyledButtonClose onClick={hideModal} />
     {console.log(task)}
-    <h1>Hello, TaskModal!</h1>
-    Zadanie:{task.title}
+    Task:{task.title}
     <p />
-    Ilośc punktów: {task.extendedProps.points}
+    Points: {task.extendedProps.points}
+    <p />
+    <p />
     <StyledButtonIcon
       onClick={() => {
         console.log(task);
-        deleteTask(task.publicId, shownAccId);
+        deleteTask(task.extendedProps._id, shownAccId);
+        hideModal();
       }}
     >
       Delete
     </StyledButtonIcon>
+    <p /> {task.ui.backgroundColor ? <p>Zadanie wykonane</p> : null}
+    {task.ui.backgroundColor ? (
+      <StyledButtonIcon
+        onClick={() => {
+          confirmDoneTask(task.extendedProps._id, shownAccId, task.extendedProps.points);
+        }}
+      >
+        Confirm
+      </StyledButtonIcon>
+    ) : null}
   </StyledWrapper>
 );
 
 TaskModal.propTypes = {
   hideModal: propTypes.func.isRequired,
   task: propTypes.objectOf(propTypes.shape).isRequired,
+  deleteTask: propTypes.func.isRequired,
+  shownAccId: propTypes.string.isRequired,
 };
 
 TaskModal.defaultProps = {};

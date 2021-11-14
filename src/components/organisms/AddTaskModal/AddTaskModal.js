@@ -36,14 +36,18 @@ const StyledTextarea = styled.textarea`
 
 const StyledButton = styled(Button)`
   margin-left: 165px;
-  margin-top: 110px;
+  margin-top: 30px;
 `;
+const StyledInput = styled(Input)`
+  width: 150px;
+`;
+
 // zmienić na klasę i przerzucić isAllDayTaskHandler i isAllDayTask tutaj
 const AddTaskModal = ({ hideModal, isAllDayTaskHandler, isAllDayTask, addTask, shownAccId }) => (
   <StyledWrapper>
     <StyledButtonClose onClick={hideModal} />
     <Formik
-      initialValues={{ title: '', date: '', start: '', end: '' }}
+      initialValues={{ title: '', date: '', start: '', end: '', points: '' }}
       onSubmit={(values, { resetForm }) => {
         addTask(values, shownAccId);
         resetForm({ values: '' });
@@ -91,6 +95,15 @@ const AddTaskModal = ({ hideModal, isAllDayTaskHandler, isAllDayTask, addTask, s
               />
             </>
           ) : null}
+          <p />
+          Points worth:
+          <StyledInput
+            type="number"
+            name="points"
+            value={values.points}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
           <StyledButton type="submit">Add task</StyledButton>
         </Form>
       )}
