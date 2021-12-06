@@ -26,6 +26,9 @@ export const CONFIRM_DONE_FAILURE = 'CONFIRM_DONE_FAILURE';
 export const DELETE_CHILD_REQUEST = 'DELETE_CHILD_REQUEST';
 export const DELETE_CHILD_SUCCESS = 'DELETE_CHILD_SUCCESS';
 export const DELETE_CHILD_FAILURE = 'DELETE_CHILD_FAILURE';
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 export const addTask = (values, shownAccId) => (dispatch) => {
   dispatch({ type: ADD_TASK_REQUEST });
@@ -104,26 +107,57 @@ export const confirmDoneTask = (taskId, shownAccId, points) => (dispatch) => {
 
 export const fetchChilds = () => (dispatch, getState) => {
   dispatch({ type: FETCH_CHILDS_REQUEST });
-
-  return axios
-    .get('http://localhost:9000/api/fetchChilds', {
-      params: {
-        id: getState().childAccs.map((obj) => obj._id),
-      },
-    })
-    .then(({ data }) => {
-      console.log(data);
-      dispatch({
-        type: FETCH_CHILDS_SUCCESS,
-        payload: {
-          data,
+  // works only when childAccs array in redux is empty
+  if (getState().childAccs.length === 0) {
+    console.log('getState().childAccs.length === 0');
+    return axios
+      .get('http://localhost:9000/api/fetchChilds', {
+        params: {
+          id: getState().childAccs.map((obj) => obj._id),
         },
+      })
+      .then(({ data }) => {
+        console.log(data);
+        dispatch({
+          type: FETCH_CHILDS_SUCCESS,
+          payload: {
+            data,
+          },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch({ type: FETCH_CHILDS_FAILURE });
       });
-    })
-    .catch((err) => {
-      console.log(err);
-      dispatch({ type: FETCH_CHILDS_FAILURE });
-    });
+  }
+  if (getState().childAccs[0].events.length === 0) {
+    console.log('getState().childAccs[0].events.length === 0');
+    return axios
+      .get('http://localhost:9000/api/fetchChilds', {
+        params: {
+          id: getState().childAccs.map((obj) => obj._id),
+        },
+      })
+      .then(({ data }) => {
+        console.log(data);
+        dispatch({
+          type: FETCH_CHILDS_SUCCESS,
+          payload: {
+            data,
+          },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch({ type: FETCH_CHILDS_FAILURE });
+      });
+  }
+  dispatch({
+    type: FETCH_CHILDS_SUCCESS,
+    payload: {
+      data: getState().childAccs,
+    },
+  });
 };
 
 export const chooseAccount = (id) => ({
@@ -202,3 +236,15 @@ export const authenticate = (username, password) => (dispatch) => {
       dispatch({ type: AUTH_FAILURE });
     });
 };
+
+// export const logout = () => (dispatch) => {
+//   // dispatch({ type: LOGOUT_REQUEST });
+//   console.log('akcja logout');
+//   return axios
+//     .post('http://localhost:9000/api/user/logout')
+//     .then(dispatch({ type: LOGOUT_SUCCESS }))
+//     .catch((err) => {
+//       console.log(err);
+//       dispatch({ type: LOGOUT_FAILURE });
+//     });
+// };

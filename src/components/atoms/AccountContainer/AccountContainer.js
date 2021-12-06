@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-alert */
 import React from 'react';
 import styled from 'styled-components';
@@ -64,12 +65,30 @@ const AccountContainer = ({
   chooseAccount,
   deleteChild,
   userID,
+  active,
 }) =>
+  // clear for management, tasks for AddTasks
   tasks ? (
-    <StyledHeading style={{ width: '15vw' }} id={id} onClick={() => chooseAccount(id)}>
-      <StyledAvatar src={SampleAvatar} />
-      <StyledName>{name}</StyledName>
-    </StyledHeading>
+    // active for choosen child
+    active ? (
+      <StyledHeading
+        style={{ width: '15vw', cursor: 'pointer', border: '1px solid white', color: 'white' }}
+        id={id}
+        onClick={() => chooseAccount(id)}
+      >
+        <StyledAvatar src={SampleAvatar} />
+        <StyledName>{name}</StyledName>
+      </StyledHeading>
+    ) : (
+      <StyledHeading
+        style={{ width: '15vw', cursor: 'pointer' }}
+        id={id}
+        onClick={() => chooseAccount(id)}
+      >
+        <StyledAvatar src={SampleAvatar} />
+        <StyledName>{name}</StyledName>
+      </StyledHeading>
+    )
   ) : (
     <StyledWrapper>
       <StyledHeading>
@@ -101,13 +120,17 @@ AccountContainer.propTypes = {
   id: propTypes.string.isRequired,
   tasks: propTypes.bool,
   chooseAccount: propTypes.func,
-  deleteChild: propTypes.func.isRequired,
-  userID: propTypes.string.isRequired,
+  deleteChild: propTypes.func,
+  userID: propTypes.string,
+  active: propTypes.bool,
 };
 
 AccountContainer.defaultProps = {
   tasks: null,
   chooseAccount: null,
+  deleteChild: null,
+  userID: null,
+  active: null,
 };
 
 export default AccountContainer;

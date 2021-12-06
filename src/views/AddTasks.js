@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
 import AccountContainer from '../components/atoms/AccountContainer/AccountContainer';
-import Sidebar from '../components/organisms/Sidebar/Sidebar';
 import MainTemplate from '../templates/MainTemplate';
 import Calendar from '../components/organisms/Calendar/Calendar';
 import AddTaskModal from '../components/organisms/AddTaskModal/AddTaskModal';
@@ -81,7 +80,6 @@ class AddTasks extends React.Component {
     return (
       <>
         <MainTemplate />
-        <Sidebar />
         <StyledWrapper>
           {childAccs.map(({ name, points, tasksDone, activeTasks, _id }) => (
             <AccountContainer
@@ -93,6 +91,7 @@ class AddTasks extends React.Component {
               key={_id}
               tasks
               chooseAccount={chooseAccount}
+              active={_id === shownAccId ? true : null}
             />
           ))}
         </StyledWrapper>

@@ -26,6 +26,7 @@ const user = {
     })(req, res, next);
   },
   userLogout: (req, res) => {
+    console.log('logout');
     req.logout();
     res.sendStatus(200);
   },
@@ -85,18 +86,31 @@ const user = {
     );
   },
   fetchChilds: (req, res) => {
+    let ids;
     console.log(req.query.id);
     console.log('reqUser');
     console.log(req.user);
+
     const childAccs = [];
     async function gatherChilds() {
-      const promises = req.query.id.map((id) =>
+      const promises = ids.map((id) =>
         User.findById(id).then((results) => childAccs.push(results)),
       );
       const test = await Promise.all(promises);
+      console.log(childAccs);
       return childAccs;
     }
-    gatherChilds().then((childAccs) => res.send(childAccs));
+    async function gatherIds() {
+      User.findById(req.user.id, (err, docs) => {
+        if (err) {
+          console.log(err);
+        } else {
+          ids = docs.childAccs.map((obj) => obj._id);
+          gatherChilds().then((childAccs) => res.send(childAccs));
+        }
+      });
+    }
+    gatherIds();
     // req.query.id.map((id) => User.findById(id).then((results) => childAccs.push(results)));
   },
 };

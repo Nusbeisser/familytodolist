@@ -10,7 +10,10 @@ import Button from '../../components/atoms/Button/Button';
 import MainPage from '../MainPage';
 import Management from '../Management';
 import AddTasks from '../AddTasks';
+import Prizes from '../Prizes';
+import Settings from '../Settings';
 import InitialView from '../InitialView';
+import PrivateRoute from '../../routes/PrivateRoute';
 
 const StyledButton = styled(Button)`
   position: absolute;
@@ -23,9 +26,11 @@ const Root = () => (
     <BrowserRouter>
       <Switch>
         <Route exact path="/authenticate" component={InitialView} />
-        <Route exact path="/" component={MainPage} />
-        <Route path="/management" component={Management} />
-        <Route path="/addtasks" component={AddTasks} />
+        <PrivateRoute exact path="/" component={MainPage} />
+        <PrivateRoute path="/addtasks" component={AddTasks} />
+        <PrivateRoute path="/management" component={Management} />
+        <PrivateRoute path="/prizes" component={Prizes} />
+        <PrivateRoute path="/settings" component={Settings} />
         <GlobalStyle />
         <Sidebar />
         <StyledButton>Dodaj konto</StyledButton>

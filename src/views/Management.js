@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import Sidebar from '../components/organisms/Sidebar/Sidebar';
 import MainTemplate from '../templates/MainTemplate';
 import Button from '../components/atoms/Button/Button';
 import AccountContainer from '../components/atoms/AccountContainer/AccountContainer';
@@ -10,6 +9,7 @@ import AddAccount from '../components/molecules/AddAccount/AddAccount';
 import {
   registerChild as registerChildAction,
   deleteChild as deleteChildAction,
+  fetchChilds as fetchChildsAction,
 } from '../actions/index';
 
 const StyledGrid = styled.div`
@@ -31,6 +31,11 @@ const StyledButton = styled(Button)`
 class Menagement extends React.Component {
   state = { isAddAccountOpen: false };
 
+  componentDidMount() {
+    const { fetchChilds } = this.props;
+    fetchChilds();
+  }
+
   openAddAccount = () => {
     this.setState({ isAddAccountOpen: true });
   };
@@ -48,7 +53,6 @@ class Menagement extends React.Component {
     return (
       <>
         <MainTemplate />
-        <Sidebar />
         <StyledGrid>
           {childAccs.map(({ name, points, tasksDone, activeTasks, _id }) => (
             <AccountContainer
@@ -80,13 +84,17 @@ Menagement.propTypes = {
   childAccs: propTypes.arrayOf(propTypes.shape).isRequired,
   registerChild: propTypes.func.isRequired,
   userID: propTypes.string,
+  deleteChild: propTypes.func,
+  fetchChilds: propTypes.func,
 };
 
 Menagement.defaultProps = {
   userID: null,
+  deleteChild: null,
+  fetchChilds: null,
 };
 
-const mapStateToProps = ({ childAccs = null, userID = null, state = null }) => ({
+const mapStateToProps = ({ childAccs, userID = null, state = null }) => ({
   childAccs,
   userID,
   state,
@@ -96,6 +104,7 @@ const mapDispatchToProps = (dispatch) => ({
   registerChild: (name, username, password, userID, accessLevel) =>
     dispatch(registerChildAction(name, username, password, userID, accessLevel)),
   deleteChild: (id, userID) => dispatch(deleteChildAction(id, userID)),
+  fetchChilds: (id) => dispatch(fetchChildsAction(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menagement);

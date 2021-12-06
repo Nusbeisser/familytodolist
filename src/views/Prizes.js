@@ -2,11 +2,11 @@ import React from 'react';
 
 import MainTemplate from '../templates/MainTemplate';
 
-const Settings = () => (
+const Prizes = () => (
   <>
     <MainTemplate />
-    <h1>Dzień dobry, strona z ustawieniami</h1>
+    <h1>Dzień dobry, strona z nagrodami</h1>
   </>
 );
 
-export default Settings;
+export default Prizes;
