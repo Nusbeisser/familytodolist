@@ -35,6 +35,7 @@ passport.deserializeUser((id, done) => {
       username: user.username,
       id: user._id,
       accessLevel: user.accessLevel,
+      parentID: user.parentID,
     };
     done(err, userInformation);
   });

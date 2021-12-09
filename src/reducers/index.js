@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 import update from 'immutability-helper';
@@ -10,7 +11,9 @@ import {
   FETCH_CHILDS_SUCCESS,
   CONFIRM_DONE_SUCCESS,
   DELETE_CHILD_SUCCESS,
-  LOGOUT_SUCCESS,
+  ADD_PRIZE_SUCCESS,
+  FETCH_PRIZES_SUCCESS,
+  DELETE_PRIZE_SUCCESS,
 } from '../actions/index';
 
 const initialState = {
@@ -18,6 +21,7 @@ const initialState = {
   accessLevel: sessionStorage.getItem('lvl') ? JSON.parse(sessionStorage.getItem('lvl')) : '0',
   authed: sessionStorage.getItem('authed') ? JSON.parse(sessionStorage.getItem('authed')) : false,
   childAccs: [],
+  prizes: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -63,6 +67,13 @@ const rootReducer = (state = initialState, action) => {
         },
       });
     }
+
+    case DELETE_PRIZE_SUCCESS:
+      console.log(action.payload.id);
+      return {
+        ...state,
+        prizes: state.prizes.filter((item) => item._id !== action.payload.id),
+      };
 
     case DELETE_CHILD_SUCCESS:
       console.log('DELETE_CHILD_SUCCES');
@@ -118,6 +129,7 @@ const rootReducer = (state = initialState, action) => {
 
       if (action.payload.data.childAccs.length === 0 && !action.payload.data.parentID) {
         return {
+          ...state,
           userID: action.payload.data._id,
           childAccs: action.payload.data.childAccs,
           shownAccId: null,
@@ -128,6 +140,7 @@ const rootReducer = (state = initialState, action) => {
 
       if (!action.payload.data.parentID && action.payload.data.childAccs[0]._id) {
         return {
+          ...state,
           userID: action.payload.data._id,
           childAccs: action.payload.data.childAccs,
           shownAccId: action.payload.data.childAccs[0]._id,
@@ -137,6 +150,7 @@ const rootReducer = (state = initialState, action) => {
       }
 
       return {
+        ...state,
         userID: action.payload.data._id,
         events: action.payload.data.events,
         accessLevel: action.payload.data.accessLevel,
@@ -147,6 +161,19 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         shownAccId: action.payload.id,
+      };
+
+    case ADD_PRIZE_SUCCESS:
+      console.log('ADD_PRIZE_SUCCESS');
+      return {
+        ...state,
+        prizes: [...state.prizes, action.payload.data],
+      };
+
+    case FETCH_PRIZES_SUCCESS:
+      return {
+        ...state,
+        prizes: action.payload.data,
       };
 
     default:

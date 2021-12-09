@@ -23,8 +23,8 @@ const StyledGrid = styled.div`
 
 const StyledButton = styled(Button)`
   position: absolute;
-  top: 1100px;
-  left: 300px;
+  top: -150px;
+  left: 1280px;
   margin-top: 200px;
 `;
 

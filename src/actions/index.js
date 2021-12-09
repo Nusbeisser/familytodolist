@@ -26,9 +26,15 @@ export const CONFIRM_DONE_FAILURE = 'CONFIRM_DONE_FAILURE';
 export const DELETE_CHILD_REQUEST = 'DELETE_CHILD_REQUEST';
 export const DELETE_CHILD_SUCCESS = 'DELETE_CHILD_SUCCESS';
 export const DELETE_CHILD_FAILURE = 'DELETE_CHILD_FAILURE';
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
+export const FETCH_PRIZES_REQUEST = 'FETCH_PRIZES_REQUEST';
+export const FETCH_PRIZES_SUCCESS = 'FETCH_PRIZES_SUCCESS';
+export const FETCH_PRIZES_FAILURE = 'FETCH_PRIZES_FAILURE';
+export const ADD_PRIZE_REQUEST = 'ADD_PRIZE_REQUEST';
+export const ADD_PRIZE_SUCCESS = 'ADD_PRIZE_SUCCESS';
+export const ADD_PRIZE_FAILURE = 'ADD_PRIZE_FAILURE';
+export const DELETE_PRIZE_REQUEST = 'DELETE_PRIZE_REQUEST';
+export const DELETE_PRIZE_SUCCESS = 'DELETE_PRIZE_SUCCESS';
+export const DELETE_PRIZE_FAILURE = 'DELETE_PRIZE_FAILURE';
 
 export const addTask = (values, shownAccId) => (dispatch) => {
   dispatch({ type: ADD_TASK_REQUEST });
@@ -79,6 +85,29 @@ export const deleteTask = (taskId, shownAccId) => (dispatch) => {
     });
 };
 
+export const deletePrize = (id) => (dispatch) => {
+  console.log(id);
+  dispatch({ type: DELETE_TASK_REQUEST });
+  return axios
+    .post('http://localhost:9000/api/deletePrize', {
+      params: {
+        id,
+      },
+    })
+    .then(() => {
+      dispatch({
+        type: DELETE_PRIZE_SUCCESS,
+        payload: {
+          id,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: DELETE_PRIZE_FAILURE });
+    });
+};
+
 export const confirmDoneTask = (taskId, shownAccId, points) => (dispatch) => {
   dispatch({ type: CONFIRM_DONE_REQUEST });
 
@@ -102,6 +131,48 @@ export const confirmDoneTask = (taskId, shownAccId, points) => (dispatch) => {
     .catch((err) => {
       console.log(err);
       dispatch({ type: CONFIRM_DONE_FAILURE });
+    });
+};
+
+export const fetchPrizes = () => (dispatch) => {
+  console.log('fetchPrizes');
+  return axios
+    .get('http://localhost:9000/api/fetchPrizes')
+    .then(({ data }) => {
+      console.log(data);
+      dispatch({
+        type: FETCH_PRIZES_SUCCESS,
+        payload: {
+          data,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: FETCH_PRIZES_FAILURE });
+    });
+};
+export const addPrize = (values) => (dispatch) => {
+  dispatch({ type: ADD_PRIZE_REQUEST });
+
+  return axios
+    .post('http://localhost:9000/api/addPrize', {
+      params: {
+        prize: values,
+      },
+    })
+    .then(({ data }) => {
+      console.log(data);
+      dispatch({
+        type: ADD_PRIZE_SUCCESS,
+        payload: {
+          data,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: ADD_PRIZE_FAILURE });
     });
 };
 
@@ -130,6 +201,7 @@ export const fetchChilds = () => (dispatch, getState) => {
         dispatch({ type: FETCH_CHILDS_FAILURE });
       });
   }
+  // works only when childAccs.events is empty due to flat data
   if (getState().childAccs[0].events.length === 0) {
     console.log('getState().childAccs[0].events.length === 0');
     return axios

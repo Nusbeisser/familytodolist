@@ -87,6 +87,9 @@ const Sidebar = () =>
             <h1>FamilyToDoApp</h1>
           </StyledLogo>
         </NavLink>
+        <NavLink to="/prizes">
+          <StyledButtonIcon icon={AddAchievementIcon} />
+        </NavLink>
         <StyledNav>
           <NavLink to="/settings">
             <StyledButtonIcon icon={SettingsIcon} />

@@ -12,6 +12,10 @@ router.post('/addTask', task.addTask);
 router.post('/deleteTask', task.deleteTask);
 router.post('/confirmDoneTask', task.confirmDoneTask);
 
+router.post('/addPrize', user.addPrize);
+router.post('/deletePrize', user.deletePrize);
+
 router.get('/fetchChilds', user.fetchChilds);
+router.get('/fetchPrizes', user.fetchPrizes);
 
 module.exports = router;

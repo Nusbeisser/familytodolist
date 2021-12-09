@@ -31,6 +31,60 @@ const user = {
     res.sendStatus(200);
   },
 
+  addPrize: (req, res) => {
+    console.log('addPrize');
+    const id = mongoose.Types.ObjectId();
+    const prize = { _id: id, ...req.body.params.prize };
+    User.findByIdAndUpdate(
+      req.user.id,
+      { $push: { prizes: prize } },
+      { new: true },
+      (err, result) => {},
+    );
+    res.send(prize);
+  },
+
+  deletePrize: (req, res) => {
+    if (req.user.accessLevel > 0) {
+      const prizeID = mongoose.mongo.ObjectID(req.body.params.id);
+      User.findByIdAndUpdate(
+        req.user.id,
+        { $pull: { prizes: { _id: prizeID } } },
+        { multi: true },
+        (err, result) => {
+          if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+          }
+        },
+      );
+      return res.sendStatus(201);
+    }
+    return res.sendStatus(500);
+  },
+
+  fetchPrizes: async (req, res) => {
+    console.log('fetchPrizes');
+    if (req.user.id && !req.user.parentID) {
+      console.log('(req.user.id && !req.user.parentID)');
+      const results = await User.findById(req.user.id);
+      if (results) {
+        console.log(results.prizes);
+        res.send(results.prizes);
+      }
+    } else if (req.user.parentID) {
+      console.log(req.user.parentID);
+      console.log('req.user.parentID');
+      const results = await User.findById(req.user.parentID);
+      if (results) {
+        console.log(results.prizes);
+        res.send(results.prizes);
+      }
+    } else {
+      res.sendStatus(500);
+    }
+  },
+
   deleteChild: (req, res) => {
     console.log(req.body.userID);
     const childId = mongoose.mongo.ObjectID(req.body.id);

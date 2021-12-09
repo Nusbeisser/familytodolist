@@ -5,7 +5,7 @@ import MainTemplate from '../templates/MainTemplate';
 const Settings = () => (
   <>
     <MainTemplate />
-    <h1>Dzień dobry, strona z ustawieniami</h1>
+    <h1>Good morning, its my epic settings page</h1>
   </>
 );
 
