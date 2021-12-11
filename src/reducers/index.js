@@ -14,6 +14,7 @@ import {
   ADD_PRIZE_SUCCESS,
   FETCH_PRIZES_SUCCESS,
   DELETE_PRIZE_SUCCESS,
+  TASK_DONE_SUCCESS,
 } from '../actions/index';
 
 const initialState = {
@@ -22,6 +23,7 @@ const initialState = {
   authed: sessionStorage.getItem('authed') ? JSON.parse(sessionStorage.getItem('authed')) : false,
   childAccs: [],
   prizes: [],
+  events: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -98,6 +100,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         childAccs: action.payload.data,
+      };
+
+    case TASK_DONE_SUCCESS:
+      console.log('TASK_DONE_SUCCESS');
+      return {
+        ...state,
       };
 
     case CONFIRM_DONE_SUCCESS:

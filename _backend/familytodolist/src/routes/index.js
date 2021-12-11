@@ -10,6 +10,7 @@ router.post('/user/deletechild', user.deleteChild);
 
 router.post('/addTask', task.addTask);
 router.post('/deleteTask', task.deleteTask);
+router.post('/taskDone', task.taskDone);
 router.post('/confirmDoneTask', task.confirmDoneTask);
 
 router.post('/addPrize', user.addPrize);

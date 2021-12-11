@@ -69,6 +69,8 @@ PrizesContainer.propTypes = {
   cost: propTypes.number.isRequired,
   description: propTypes.string,
   id: propTypes.string.isRequired,
+  deletePrize: propTypes.func.isRequired,
+  accessLevel: propTypes.number.isRequired,
 };
 
 PrizesContainer.defaultProps = {

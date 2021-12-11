@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
 import styled from 'styled-components';
@@ -26,7 +27,15 @@ const StyledButtonClose = styled(ButtonClose)`
 `;
 const StyledButtonIcon = styled(ButtonIcon)``;
 
-const TaskModal = ({ task, hideModal, deleteTask, shownAccId, confirmDoneTask }) => (
+const TaskModal = ({
+  task,
+  hideModal,
+  deleteTask,
+  shownAccId,
+  confirmDoneTask,
+  accessLevel,
+  taskDone,
+}) => (
   <StyledWrapper>
     <h1>Task details</h1>
     <StyledButtonClose onClick={hideModal} />
@@ -36,17 +45,31 @@ const TaskModal = ({ task, hideModal, deleteTask, shownAccId, confirmDoneTask })
     Points: {task.extendedProps.points}
     <p />
     <p />
-    <StyledButtonIcon
-      onClick={() => {
-        console.log(task);
-        deleteTask(task.extendedProps._id, shownAccId);
-        hideModal();
-      }}
-    >
-      Delete
-    </StyledButtonIcon>
-    <p /> {task.ui.backgroundColor ? <p>Zadanie wykonane</p> : null}
-    {task.ui.backgroundColor ? (
+    {accessLevel > 0 ? (
+      <StyledButtonIcon
+        onClick={() => {
+          console.log(task);
+          deleteTask(task.extendedProps._id, shownAccId);
+          hideModal();
+        }}
+      >
+        Delete
+      </StyledButtonIcon>
+    ) : !task.ui.backgroundColor ? (
+      <StyledButtonIcon
+        onClick={() => {
+          console.log(task);
+          taskDone(task.extendedProps._id);
+          hideModal();
+        }}
+      >
+        Done
+      </StyledButtonIcon>
+    ) : (
+      <p>Task completed, waiting for verification.</p>
+    )}
+    <p /> {task.ui.backgroundColor && accessLevel > 0 ? <p>Zadanie wykonane</p> : null}
+    {task.ui.backgroundColor && accessLevel > 0 ? (
       <StyledButtonIcon
         onClick={() => {
           confirmDoneTask(task.extendedProps._id, shownAccId, task.extendedProps.points);
@@ -63,6 +86,9 @@ TaskModal.propTypes = {
   task: propTypes.objectOf(propTypes.shape).isRequired,
   deleteTask: propTypes.func.isRequired,
   shownAccId: propTypes.string.isRequired,
+  confirmDoneTask: propTypes.func.isRequired,
+  accessLevel: propTypes.number.isRequired,
+  taskDone: propTypes.func.isRequired,
 };
 
 TaskModal.defaultProps = {};

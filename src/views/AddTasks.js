@@ -75,9 +75,10 @@ class AddTasks extends React.Component {
     const { addTask } = this.props;
     const { childAccs } = this.props;
     const { shownAccId } = this.props;
-    const { chooseAccount } = this.props;
+    const { chooseAccount, accessLevel } = this.props;
+    const { events } = this.props;
 
-    return (
+    return accessLevel > 0 ? (
       <>
         <MainTemplate />
         <StyledWrapper>
@@ -112,14 +113,22 @@ class AddTasks extends React.Component {
           />
         ) : null}
       </>
+    ) : (
+      <>
+        <MainTemplate />
+        <StyledCalendarWrapper>
+          <Calendar events={events} />
+        </StyledCalendarWrapper>
+      </>
     );
   }
 }
 
-const mapStateToProps = ({ childAccs, events, shownAccId }) => ({
+const mapStateToProps = ({ childAccs, events, shownAccId, accessLevel }) => ({
   childAccs,
   events,
   shownAccId,
+  accessLevel,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -134,6 +143,8 @@ AddTasks.propTypes = {
   fetchChilds: propTypes.func,
   shownAccId: propTypes.string,
   chooseAccount: propTypes.func,
+  accessLevel: propTypes.number.isRequired,
+  events: propTypes.arrayOf(propTypes.object),
 };
 
 AddTasks.defaultProps = {
@@ -141,6 +152,7 @@ AddTasks.defaultProps = {
   fetchChilds: null,
   shownAccId: null,
   chooseAccount: null,
+  events: null,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTasks);

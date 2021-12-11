@@ -10,6 +10,7 @@ import TaskModal from '../../molecules/TaskModal/TaskModal';
 import {
   deleteTask as deleteTaskAction,
   confirmDoneTask as confirmDoneTaskAction,
+  taskDone as taskDoneAction,
 } from '../../../actions/index';
 
 class Calendar extends React.Component {
@@ -44,8 +45,13 @@ class Calendar extends React.Component {
     const { task } = this.state;
     const { deleteTask } = this.props;
     const { shownAccId } = this.props;
-    const { confirmDoneTask } = this.props;
+    const { confirmDoneTask, taskDone } = this.props;
+    const { accessLevel } = this.props;
+    console.log('event');
+    console.log(event.events);
+    console.log('evenciki');
     console.log(events);
+    console.log(accessLevel);
     return (
       <>
         <FullCalendar
@@ -68,7 +74,7 @@ class Calendar extends React.Component {
           }}
           plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
           initialView="dayGridMonth"
-          events={event ? event.events : 'null'}
+          events={accessLevel === 1 ? event.events : events}
           selectable
           editable
           dayMaxEventRows
@@ -82,6 +88,8 @@ class Calendar extends React.Component {
             deleteTask={deleteTask}
             shownAccId={shownAccId}
             confirmDoneTask={confirmDoneTask}
+            accessLevel={accessLevel}
+            taskDone={taskDone}
           />
         ) : null}
       </>
@@ -89,10 +97,13 @@ class Calendar extends React.Component {
   }
 }
 
+const mapStateToProps = ({ accessLevel }) => ({ accessLevel });
+
 const mapDispatchToProps = (dispatch) => ({
   deleteTask: (taskId, shownAccId) => dispatch(deleteTaskAction(taskId, shownAccId)),
   confirmDoneTask: (taskId, shownAccId, points) =>
     dispatch(confirmDoneTaskAction(taskId, shownAccId, points)),
+  taskDone: (taskId, points) => dispatch(taskDoneAction(taskId, points)),
 });
 
-export default connect(null, mapDispatchToProps)(Calendar);
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

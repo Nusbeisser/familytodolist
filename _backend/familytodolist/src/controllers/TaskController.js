@@ -25,6 +25,26 @@ const task = {
     );
   },
 
+  taskDone: (req, res) => {
+    console.log(req.body);
+    console.log(req.user);
+    const userId = mongoose.mongo.ObjectID(req.user.id);
+    const taskId = mongoose.mongo.ObjectID(req.body.params.taskId);
+    User.findOneAndUpdate(
+      { _id: userId, 'events._id': taskId },
+      { $set: { 'events.$.color': 'red' } },
+      { multi: true, useFindAndModify: false },
+      (err, result) => {
+        console.log(result);
+        if (err) {
+          console.log(`Błąd do kurwy nędzy ${err}`);
+          return res.sendStatus(500);
+        }
+        return res.sendStatus(201);
+      },
+    );
+  },
+
   confirmDoneTask: async (req, res) => {
     const taskId = mongoose.mongo.ObjectID(req.body.params.taskId);
     const user = await User.findOne({ _id: req.body.params.shownAccId }).exec();

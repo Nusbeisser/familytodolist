@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route, Redirect } from 'react-router-dom';
 import store from '../store/index';
 
 function PrivateRoute({ component: Component, ...rest }) {

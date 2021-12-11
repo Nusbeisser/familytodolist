@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios';
@@ -17,6 +18,9 @@ export const CHOOSE_ACCOUNT = 'CHOOSE_ACCOUNT';
 export const ADD_TASK_REQUEST = 'ADD_TASK_REQUEST';
 export const ADD_TASK_SUCCESS = 'ADD_TASK_SUCCESS';
 export const ADD_TASK_FAILURE = 'ADD_TASK_FAILURE';
+export const TASK_DONE_REQUEST = 'TASK_DONE_REQUEST';
+export const TASK_DONE_SUCCESS = 'TASK_DONE_SUCCESS';
+export const TASK_DONE_FAILURE = 'TASK_DONE_FAILURE';
 export const FETCH_CHILDS_REQUEST = 'FETCH_CHILDS_REQUEST';
 export const FETCH_CHILDS_SUCCESS = 'FETCH_CHILDS_SUCCESS';
 export const FETCH_CHILDS_FAILURE = 'FETCH_CHILDS_FAILURE';
@@ -107,7 +111,29 @@ export const deletePrize = (id) => (dispatch) => {
       dispatch({ type: DELETE_PRIZE_FAILURE });
     });
 };
+export const taskDone = (taskId, points) => (dispatch) => {
+  dispatch({ type: TASK_DONE_REQUEST });
 
+  return axios
+    .post('http://localhost:9000/api/taskDone', {
+      params: {
+        taskId,
+      },
+    })
+    .then(() => {
+      dispatch({
+        type: TASK_DONE_SUCCESS,
+        payload: {
+          taskId,
+          points,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: TASK_DONE_FAILURE });
+    });
+};
 export const confirmDoneTask = (taskId, shownAccId, points) => (dispatch) => {
   dispatch({ type: CONFIRM_DONE_REQUEST });
 

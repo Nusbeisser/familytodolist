@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-restricted-globals */
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
@@ -87,10 +89,14 @@ const Sidebar = () =>
             <h1>FamilyToDoApp</h1>
           </StyledLogo>
         </NavLink>
-        <NavLink to="/prizes">
-          <StyledButtonIcon icon={AddAchievementIcon} />
-        </NavLink>
+
         <StyledNav>
+          <NavLink to="/addtasks">
+            <StyledButtonIcon icon={AddTaskIcon} />
+          </NavLink>
+          <NavLink to="/prizes">
+            <StyledButtonIcon icon={AddAchievementIcon} />
+          </NavLink>
           <NavLink to="/settings">
             <StyledButtonIcon icon={SettingsIcon} />
           </NavLink>

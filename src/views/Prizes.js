@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import propTypes from 'prop-types';
 import MainTemplate from '../templates/MainTemplate';
 import PrizesContainer from '../components/atoms/PrizesContainer/PrizesContainer';
 import Button from '../components/atoms/Button/Button';
@@ -89,5 +90,17 @@ const mapStateToProps = ({ prizes, accessLevel }) => ({
   prizes,
   accessLevel,
 });
+
+Prizes.propTypes = {
+  fetchPrizes: propTypes.func.isRequired,
+  addPrize: propTypes.func.isRequired,
+  prizes: propTypes.arrayOf(propTypes.object),
+  deletePrize: propTypes.func.isRequired,
+  accessLevel: propTypes.number.isRequired,
+};
+
+Prizes.defaultProps = {
+  prizes: null,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Prizes);

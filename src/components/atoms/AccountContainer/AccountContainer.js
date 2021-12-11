@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-alert */
 import React from 'react';
