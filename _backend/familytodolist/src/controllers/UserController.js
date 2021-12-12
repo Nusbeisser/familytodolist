@@ -70,15 +70,20 @@ const user = {
       const results = await User.findById(req.user.id);
       if (results) {
         console.log(results.prizes);
-        res.send(results.prizes);
+        const obj = {};
+        obj.prizes = results.prizes;
+        res.send(obj);
       }
     } else if (req.user.parentID) {
       console.log(req.user.parentID);
       console.log('req.user.parentID');
+      const obj = { prizes: 0, points: 0 };
+      User.findById(req.user.id).then((results) => (obj.points = results.points));
       const results = await User.findById(req.user.parentID);
       if (results) {
         console.log(results.prizes);
-        res.send(results.prizes);
+        obj.prizes = results.prizes;
+        res.send(obj);
       }
     } else {
       res.sendStatus(500);

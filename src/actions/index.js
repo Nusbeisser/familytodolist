@@ -39,6 +39,9 @@ export const ADD_PRIZE_FAILURE = 'ADD_PRIZE_FAILURE';
 export const DELETE_PRIZE_REQUEST = 'DELETE_PRIZE_REQUEST';
 export const DELETE_PRIZE_SUCCESS = 'DELETE_PRIZE_SUCCESS';
 export const DELETE_PRIZE_FAILURE = 'DELETE_PRIZE_FAILURE';
+export const TASK_IMPROVE_REQUEST = 'TASK_IMPROVE_REQUEST';
+export const TASK_IMPROVE_SUCCESS = 'TASK_IMPROVE_SUCCESS';
+export const TASK_IMPROVE_FAILURE = 'TASK_IMPROVE_FAILURE';
 
 export const addTask = (values, shownAccId) => (dispatch) => {
   dispatch({ type: ADD_TASK_REQUEST });
@@ -111,7 +114,30 @@ export const deletePrize = (id) => (dispatch) => {
       dispatch({ type: DELETE_PRIZE_FAILURE });
     });
 };
-export const taskDone = (taskId, points) => (dispatch) => {
+export const taskToImprove = (taskId, shownAccId) => (dispatch) => {
+  dispatch({ type: TASK_IMPROVE_REQUEST });
+  return axios
+    .post('http://localhost:9000/api/taskImprove', {
+      params: {
+        taskId,
+        shownAccId,
+      },
+    })
+    .then(() => {
+      dispatch({
+        type: TASK_IMPROVE_SUCCESS,
+        payload: {
+          taskId,
+          shownAccId,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: TASK_IMPROVE_FAILURE });
+    });
+};
+export const taskDone = (taskId) => (dispatch, getState) => {
   dispatch({ type: TASK_DONE_REQUEST });
 
   return axios
@@ -125,7 +151,7 @@ export const taskDone = (taskId, points) => (dispatch) => {
         type: TASK_DONE_SUCCESS,
         payload: {
           taskId,
-          points,
+          id: getState().userID,
         },
       });
     })

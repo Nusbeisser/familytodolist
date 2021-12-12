@@ -47,12 +47,16 @@ const StyledInfo = styled.div`
   font-size: 40px;
 `;
 
-const PrizesContainer = ({ name, description, cost, id, deletePrize, accessLevel }) => (
+const PrizesContainer = ({ name, description, cost, id, deletePrize, accessLevel, points }) => (
   <StyledWrapper>
     <StyledHeading>
       <StyledName>{name}</StyledName>
       {accessLevel < 1 ? (
-        <p>Choose prize button</p>
+        points >= cost ? (
+          <p>Choose prize button</p>
+        ) : (
+          <p>Not enough points</p>
+        )
       ) : (
         <StyledDeleteIcon src={deleteIcon} onClick={() => deletePrize(id)} />
       )}

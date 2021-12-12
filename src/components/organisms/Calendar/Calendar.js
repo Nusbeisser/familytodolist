@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 import React from 'react';
@@ -11,6 +12,7 @@ import {
   deleteTask as deleteTaskAction,
   confirmDoneTask as confirmDoneTaskAction,
   taskDone as taskDoneAction,
+  taskToImprove as taskToImproveAction,
 } from '../../../actions/index';
 
 class Calendar extends React.Component {
@@ -45,13 +47,8 @@ class Calendar extends React.Component {
     const { task } = this.state;
     const { deleteTask } = this.props;
     const { shownAccId } = this.props;
-    const { confirmDoneTask, taskDone } = this.props;
+    const { confirmDoneTask, taskDone, taskToImprove } = this.props;
     const { accessLevel } = this.props;
-    console.log('event');
-    console.log(event.events);
-    console.log('evenciki');
-    console.log(events);
-    console.log(accessLevel);
     return (
       <>
         <FullCalendar
@@ -74,7 +71,7 @@ class Calendar extends React.Component {
           }}
           plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
           initialView="dayGridMonth"
-          events={accessLevel === 1 ? event.events : events}
+          events={event ? (accessLevel === 1 ? event.events : events) : []}
           selectable
           editable
           dayMaxEventRows
@@ -90,6 +87,7 @@ class Calendar extends React.Component {
             confirmDoneTask={confirmDoneTask}
             accessLevel={accessLevel}
             taskDone={taskDone}
+            taskToImprove={taskToImprove}
           />
         ) : null}
       </>
@@ -104,6 +102,7 @@ const mapDispatchToProps = (dispatch) => ({
   confirmDoneTask: (taskId, shownAccId, points) =>
     dispatch(confirmDoneTaskAction(taskId, shownAccId, points)),
   taskDone: (taskId, points) => dispatch(taskDoneAction(taskId, points)),
+  taskToImprove: (taskId, shownAccId) => dispatch(taskToImproveAction(taskId, shownAccId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

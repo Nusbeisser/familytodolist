@@ -24,8 +24,13 @@ const StyledButtonClose = styled(ButtonClose)`
   top: 50px;
   margin-left: 500px;
   margin-bottom: 30px;
+  cursor: pointer;
 `;
-const StyledButtonIcon = styled(ButtonIcon)``;
+const StyledButtonIcon = styled(ButtonIcon)`
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+`;
 
 const TaskModal = ({
   task,
@@ -35,6 +40,7 @@ const TaskModal = ({
   confirmDoneTask,
   accessLevel,
   taskDone,
+  taskToImprove,
 }) => (
   <StyledWrapper>
     <h1>Task details</h1>
@@ -68,15 +74,24 @@ const TaskModal = ({
     ) : (
       <p>Task completed, waiting for verification.</p>
     )}
-    <p /> {task.ui.backgroundColor && accessLevel > 0 ? <p>Zadanie wykonane</p> : null}
+    {task.ui.backgroundColor && accessLevel > 0 ? <p>Task completed</p> : null}
     {task.ui.backgroundColor && accessLevel > 0 ? (
-      <StyledButtonIcon
-        onClick={() => {
-          confirmDoneTask(task.extendedProps._id, shownAccId, task.extendedProps.points);
-        }}
-      >
-        Confirm
-      </StyledButtonIcon>
+      <>
+        <StyledButtonIcon
+          onClick={() => {
+            confirmDoneTask(task.extendedProps._id, shownAccId, task.extendedProps.points);
+          }}
+        >
+          Confirm task
+        </StyledButtonIcon>
+        <StyledButtonIcon
+          onClick={() => {
+            taskToImprove(task.extendedProps._id, shownAccId);
+          }}
+        >
+          To correct
+        </StyledButtonIcon>
+      </>
     ) : null}
   </StyledWrapper>
 );
@@ -89,6 +104,7 @@ TaskModal.propTypes = {
   confirmDoneTask: propTypes.func.isRequired,
   accessLevel: propTypes.number.isRequired,
   taskDone: propTypes.func.isRequired,
+  taskToImprove: propTypes.func.isRequired,
 };
 
 TaskModal.defaultProps = {};

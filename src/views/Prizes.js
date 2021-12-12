@@ -55,6 +55,7 @@ class Prizes extends React.Component {
     const { addPrize } = this.props;
     const { isModalOpen } = this.state;
     const { prizes } = this.props;
+    const { points } = this.props;
     const { deletePrize } = this.props;
     const { accessLevel } = this.props;
     return (
@@ -71,10 +72,13 @@ class Prizes extends React.Component {
               description={description}
               deletePrize={deletePrize}
               accessLevel={accessLevel}
+              points={points}
             />
           ))}
         </StyledWrapper>
-        <StyledButton onClick={() => this.showModal()}>Add prize</StyledButton>
+        {accessLevel > 0 ? (
+          <StyledButton onClick={() => this.showModal()}>Add prize</StyledButton>
+        ) : null}
       </>
     );
   }
@@ -86,9 +90,10 @@ const mapDispatchToProps = (dispatch) => ({
   deletePrize: (id) => dispatch(deletePrizeAction(id)),
 });
 
-const mapStateToProps = ({ prizes, accessLevel }) => ({
+const mapStateToProps = ({ prizes, accessLevel, points }) => ({
   prizes,
   accessLevel,
+  points,
 });
 
 Prizes.propTypes = {
@@ -97,6 +102,7 @@ Prizes.propTypes = {
   prizes: propTypes.arrayOf(propTypes.object),
   deletePrize: propTypes.func.isRequired,
   accessLevel: propTypes.number.isRequired,
+  points: propTypes.number.isRequired,
 };
 
 Prizes.defaultProps = {

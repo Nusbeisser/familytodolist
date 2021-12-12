@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+/* eslint-disable no-return-assign */
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
@@ -15,6 +17,7 @@ import {
   FETCH_PRIZES_SUCCESS,
   DELETE_PRIZE_SUCCESS,
   TASK_DONE_SUCCESS,
+  TASK_IMPROVE_SUCCESS,
 } from '../actions/index';
 
 const initialState = {
@@ -24,6 +27,7 @@ const initialState = {
   childAccs: [],
   prizes: [],
   events: [],
+  points: 0,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -100,13 +104,41 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         childAccs: action.payload.data,
+        shownAccId: action.payload.data[0]._id,
       };
 
     case TASK_DONE_SUCCESS:
       console.log('TASK_DONE_SUCCESS');
-      return {
-        ...state,
-      };
+
+      return update(state, {
+        events: {
+          [state.events.findIndex((item) => item._id === action.payload.taskId)]: {
+            $merge: { color: 'red' },
+          },
+        },
+      });
+
+    case TASK_IMPROVE_SUCCESS:
+      const eventsArray =
+        state.childAccs[state.childAccs.findIndex((item) => item._id === action.payload.shownAccId)]
+          .events;
+      const eventIndex = eventsArray.findIndex((item) => item._id === action.payload.taskId);
+
+      const childIndex = state.childAccs.findIndex(
+        (item) => item._id === action.payload.shownAccId,
+      );
+
+      return update(state, {
+        childAccs: {
+          [childIndex]: {
+            events: {
+              [eventIndex]: {
+                $merge: { color: '' },
+              },
+            },
+          },
+        },
+      });
 
     case CONFIRM_DONE_SUCCESS:
       console.log('CONFIRM_DONE_SUCCESS');
@@ -163,6 +195,7 @@ const rootReducer = (state = initialState, action) => {
         events: action.payload.data.events,
         accessLevel: action.payload.data.accessLevel,
         authed: true,
+        points: action.payload.data.points,
       };
 
     case CHOOSE_ACCOUNT:
@@ -179,9 +212,12 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case FETCH_PRIZES_SUCCESS:
+      console.log('FETCH_PRIZES_SUCCES');
+      console.log(action.payload.data);
       return {
         ...state,
-        prizes: action.payload.data,
+        prizes: action.payload.data.prizes,
+        points: action.payload.data.points,
       };
 
     default:
