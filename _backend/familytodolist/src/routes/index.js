@@ -17,8 +17,12 @@ router.post('/confirmDoneTask', task.confirmDoneTask);
 
 router.post('/addPrize', user.addPrize);
 router.post('/deletePrize', user.deletePrize);
+router.post('/purchasePrize', user.purchasePrize);
+router.post('/prizeRealized', user.prizeRealized);
 
 router.get('/fetchChilds', user.fetchChilds);
 router.get('/fetchPrizes', user.fetchPrizes);
+router.get('/fetchEvents', user.fetchEvents);
+router.get('/fetchPurchasedPrizes', user.fetchPurchasedPrizes);
 
 module.exports = router;

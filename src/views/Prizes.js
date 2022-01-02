@@ -11,22 +11,26 @@ import {
   addPrize as addPrizeAction,
   fetchPrizes as fetchPrizesAction,
   deletePrize as deletePrizeAction,
+  purchasePrize as purchasePrizeAction,
 } from '../actions/index';
 
 const StyledWrapper = styled.div`
-  position: absolute;
+  position: relative;
+  width: 80%;
   top: 70px;
   left: 12.5vw;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 185px;
+  grid-gap: 10px;
 `;
 
+const StyledButtonMaring = styled.div`
+  position: relative;
+  width: 100%;
+  //margin-left: 80px;
+`;
 const StyledButton = styled(Button)`
-  position: absolute;
-  top: -150px;
-  left: 1280px;
-  margin-top: 200px;
+  margin: auto;
 `;
 
 class Prizes extends React.Component {
@@ -58,9 +62,15 @@ class Prizes extends React.Component {
     const { points } = this.props;
     const { deletePrize } = this.props;
     const { accessLevel } = this.props;
+    const { purchasePrize } = this.props;
     return (
       <>
         <MainTemplate />
+        {accessLevel > 0 ? (
+          <StyledButtonMaring>
+            <StyledButton onClick={() => this.showModal()}>Add prize</StyledButton>
+          </StyledButtonMaring>
+        ) : null}
         {isModalOpen ? <AddPrizeModal addPrize={addPrize} hideModal={this.hideModal} /> : null}
         <StyledWrapper>
           {prizes.map(({ _id, name, description, cost }) => (
@@ -73,12 +83,10 @@ class Prizes extends React.Component {
               deletePrize={deletePrize}
               accessLevel={accessLevel}
               points={points}
+              purchasePrize={purchasePrize}
             />
           ))}
         </StyledWrapper>
-        {accessLevel > 0 ? (
-          <StyledButton onClick={() => this.showModal()}>Add prize</StyledButton>
-        ) : null}
       </>
     );
   }
@@ -88,6 +96,8 @@ const mapDispatchToProps = (dispatch) => ({
   addPrize: (values) => dispatch(addPrizeAction(values)),
   fetchPrizes: () => dispatch(fetchPrizesAction()),
   deletePrize: (id) => dispatch(deletePrizeAction(id)),
+  purchasePrize: (id, name, cost, description) =>
+    dispatch(purchasePrizeAction(id, name, cost, description)),
 });
 
 const mapStateToProps = ({ prizes, accessLevel, points }) => ({
@@ -102,11 +112,13 @@ Prizes.propTypes = {
   prizes: propTypes.arrayOf(propTypes.object),
   deletePrize: propTypes.func.isRequired,
   accessLevel: propTypes.number.isRequired,
-  points: propTypes.number.isRequired,
+  points: propTypes.number,
+  purchasePrize: propTypes.func.isRequired,
 };
 
 Prizes.defaultProps = {
   prizes: null,
+  points: null,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Prizes);

@@ -42,6 +42,18 @@ export const DELETE_PRIZE_FAILURE = 'DELETE_PRIZE_FAILURE';
 export const TASK_IMPROVE_REQUEST = 'TASK_IMPROVE_REQUEST';
 export const TASK_IMPROVE_SUCCESS = 'TASK_IMPROVE_SUCCESS';
 export const TASK_IMPROVE_FAILURE = 'TASK_IMPROVE_FAILURE';
+export const FETCH_EVENTS_REQUEST = 'FETCH_EVENTS_REQUEST';
+export const FETCH_EVENTS_SUCCESS = 'FETCH_EVENTS_SUCCESS';
+export const FETCH_EVENTS_FAILURE = 'FETCH_EVENTS_FAILURE';
+export const PURCHASE_PRIZE_REQUEST = 'PURCHASE_PRIZE_REQUEST';
+export const PURCHASE_PRIZE_SUCCESS = 'PURCHASE_PRIZE_SUCCESS';
+export const PURCHASE_PRIZE_FAILURE = 'PURCHASE_PRIZE_FAILURE';
+export const FETCH_PURCHASEDPRIZES_REQUEST = 'FETCH_PURCHASEDPRIZES_REQUEST';
+export const FETCH_PURCHASEDPRIZES_SUCCESS = 'FETCH_PURCHASEDPRIZES_SUCCESS';
+export const FETCH_PURCHASEDPRIZES_FAILURE = 'FETCH_PURCHASEDPRIZES_FAILURE';
+export const PRIZE_REALIZED_REQUEST = 'PRIZE_REALIZED_REQUEST';
+export const PRIZE_REALIZED_SUCCESS = 'PRIZE_REALIZED_SUCCESS';
+export const PRIZE_REALIZED_FAILURE = 'PRIZE_REALIZED_FAILURE';
 
 export const addTask = (values, shownAccId) => (dispatch) => {
   dispatch({ type: ADD_TASK_REQUEST });
@@ -187,6 +199,7 @@ export const confirmDoneTask = (taskId, shownAccId, points) => (dispatch) => {
 };
 
 export const fetchPrizes = () => (dispatch) => {
+  dispatch({ type: FETCH_PRIZES_REQUEST });
   console.log('fetchPrizes');
   return axios
     .get('http://localhost:9000/api/fetchPrizes')
@@ -204,6 +217,27 @@ export const fetchPrizes = () => (dispatch) => {
       dispatch({ type: FETCH_PRIZES_FAILURE });
     });
 };
+
+export const fetchPurchasedPrizes = () => (dispatch) => {
+  dispatch({ type: FETCH_PURCHASEDPRIZES_REQUEST });
+  console.log('fetchPurchasedPrizes');
+  return axios
+    .get('http://localhost:9000/api/fetchPurchasedPrizes')
+    .then(({ data }) => {
+      console.log(data);
+      dispatch({
+        type: FETCH_PURCHASEDPRIZES_SUCCESS,
+        payload: {
+          data,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: FETCH_PURCHASEDPRIZES_FAILURE });
+    });
+};
+
 export const addPrize = (values) => (dispatch) => {
   dispatch({ type: ADD_PRIZE_REQUEST });
 
@@ -225,6 +259,66 @@ export const addPrize = (values) => (dispatch) => {
     .catch((err) => {
       console.log(err);
       dispatch({ type: ADD_PRIZE_FAILURE });
+    });
+};
+
+export const prizeRealized = (id, ownerId, ownerName) => (dispatch) => {
+  dispatch({ type: PRIZE_REALIZED_REQUEST });
+
+  return axios
+    .post('http://localhost:9000/api/prizeRealized', {
+      params: {
+        id,
+        ownerId,
+      },
+    })
+    .then(() => {
+      dispatch({ type: PRIZE_REALIZED_SUCCESS, payload: { id, ownerId, ownerName } });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: PRIZE_REALIZED_FAILURE });
+    });
+};
+
+export const purchasePrize = (id, name, cost, description) => (dispatch) => {
+  dispatch({ type: PURCHASE_PRIZE_REQUEST });
+  console.log(name);
+  return axios
+    .post('http://localhost:9000/api/purchasePrize', {
+      params: {
+        _id: id,
+        name,
+        cost,
+        description,
+      },
+    })
+    .then(() => {
+      dispatch({ type: PURCHASE_PRIZE_SUCCESS, payload: { _id: id, name, cost, description } });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: PURCHASE_PRIZE_FAILURE });
+    });
+};
+
+export const fetchEvents = () => (dispatch) => {
+  dispatch({ type: FETCH_EVENTS_REQUEST });
+
+  return axios
+    .get('http://localhost:9000/api/fetchEvents', {})
+    .then(({ data }) => {
+      console.log(data);
+      dispatch({
+        type: FETCH_EVENTS_SUCCESS,
+        payload: {
+          data,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: FETCH_EVENTS_FAILURE });
     });
 };
 
@@ -360,15 +454,3 @@ export const authenticate = (username, password) => (dispatch) => {
       dispatch({ type: AUTH_FAILURE });
     });
 };
-
-// export const logout = () => (dispatch) => {
-//   // dispatch({ type: LOGOUT_REQUEST });
-//   console.log('akcja logout');
-//   return axios
-//     .post('http://localhost:9000/api/user/logout')
-//     .then(dispatch({ type: LOGOUT_SUCCESS }))
-//     .catch((err) => {
-//       console.log(err);
-//       dispatch({ type: LOGOUT_FAILURE });
-//     });
-// };

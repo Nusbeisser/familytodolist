@@ -24,17 +24,47 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  @media (min-width: 480px) {
+    width: 70px;
+  }
+  @media (min-width: 768px) {
+    width: 70px;
+  }
+  @media (min-width: 1024px) {
+    width: 100px;
+  }
+  @media (min-width: 1600px) {
+    width: 150px;
+  }
 `;
 
 const StyledLogo = styled.div`
   display: block;
   font-size: 10px;
+  text-align: center;
 `;
 
 const StyledNav = styled.div`
   position: absolute;
-  top: 180px;
+  top: 120px;
   left: 38px;
+
+  @media (min-width: 480px) {
+    left: 1px;
+  }
+  @media (min-width: 768px) {
+    left: 1px;
+  }
+  @media (min-width: 1024px) {
+    left: 17px;
+  }
+  @media (min-width: 1600px) {
+    left: 38px;
+  }
+  @media (min-height: 600px) {
+    top: 180px;
+  }
 `;
 
 const StyledLogout = styled.div`
@@ -58,7 +88,7 @@ const Sidebar = () =>
       <StyledWrapper>
         <NavLink to="/">
           <StyledLogo>
-            <h1>FamilyToDoApp</h1>
+            <h1>Family ToDo App</h1>
           </StyledLogo>
         </NavLink>
         <StyledNav>

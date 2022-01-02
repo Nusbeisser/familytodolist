@@ -13,43 +13,55 @@ const StyledWrapper = styled.div`
   width: 35vw;
   top: 70px;
   left: 200px;
-  margin-top: 30px;
+  margin: 30px;
   box-shadow: 0px 10px 30px -10px hsla(0, 0%, 0%, 0.1);
 `;
 
 const StyledHeading = styled.div`
+  display: flex;
   height: 150px;
-  width: 35vw;
-  margin-top: 30px;
+  min-width: 300px;
   background-color: yellowgreen;
   border-radius: 10px;
 `;
 
 const StyledAvatar = styled.img`
   border-radius: 100px;
-  position: relative;
+  position: flex;
+  display: flex;
+  align-self: center;
   height: 140px;
   width: 140px;
-  display: inline-block;
 `;
 
 const StyledDeleteIcon = styled.img`
-  position: relative;
-  top: -40px;
-  left: 500px;
-  display: inline-block;
+  position: flex;
+  cursor: pointer;
+  align-self: center;
+  margin: 0 auto;
 `;
-
 const StyledName = styled.div`
-  position: relative;
-  height: 150px;
-  min-width: 150px;
-  display: inline-block;
+  display: flex;
+  min-height: 150px;
+  min-width: 100px;
   text-align: center;
-  padding-top: 50px;
-  padding-left: 20px;
-  overflow: auto;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
   font-size: 40px;
+
+  @media (min-width: 480px) {
+    width: 60%;
+  }
+  @media (min-width: 768px) {
+    width: 60%;
+  }
+  @media (min-width: 1024px) {
+    width: 75%;
+  }
+  @media (min-width: 1600px) {
+    width: 80%;
+  }
 `;
 
 const StyledInfo = styled.div`

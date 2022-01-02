@@ -1,3 +1,7 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-shadow */
+/* eslint-disable no-return-assign */
 /* eslint-disable no-plusplus */
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -44,6 +48,50 @@ const user = {
     res.send(prize);
   },
 
+  // must do some points >= cost checker before and prob best way will be inc points by cost from database
+  purchasePrize: (req, res) => {
+    console.log('purchasePrize');
+    console.log(req.body);
+    console.log(req.user);
+    req.body.params.ownerId = req.user.id;
+    req.body.params.ownerName = req.user.username;
+    req.body.params._id = mongoose.Types.ObjectId();
+    const userID = mongoose.mongo.ObjectID(req.user.id);
+    User.findByIdAndUpdate(
+      userID,
+      { $push: { purchasedPrizes: req.body.params }, $inc: { points: -req.body.params.cost } },
+      { multi: true, useFindAndModify: false },
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return res.sendStatus(500);
+        }
+        console.log(result);
+        res.sendStatus(200);
+      },
+    );
+  },
+
+  prizeRealized: (req, res) => {
+    console.log(req.body);
+    const prizeID = mongoose.mongo.ObjectID(req.body.params.id);
+    User.findOneAndUpdate(
+      { _id: req.body.params.ownerId },
+      {
+        $pull: { purchasedPrizes: { _id: prizeID } },
+      },
+      { multi: true },
+      (err, result) => {
+        console.log(result);
+        if (err) {
+          console.log(err);
+          return res.sendStatus(500);
+        }
+        res.sendStatus(200);
+      },
+    );
+  },
+
   deletePrize: (req, res) => {
     if (req.user.accessLevel > 0) {
       const prizeID = mongoose.mongo.ObjectID(req.body.params.id);
@@ -87,6 +135,30 @@ const user = {
       }
     } else {
       res.sendStatus(500);
+    }
+  },
+
+  fetchPurchasedPrizes: async (req, res) => {
+    let prizes = {};
+    console.log(req.user.id);
+    const childAccs = [];
+    const gatherChilds = await User.findById(req.user.id).then((results) =>
+      results.childAccs.map((x) => childAccs.push(x._id)),
+    );
+
+    function sendGatheredPrizes() {
+      res.send(prizes);
+    }
+    if (gatherChilds) {
+      const gatherPrizes = childAccs.map((x) =>
+        User.findById(x).then((results) => {
+          prizes = { ...prizes, [results.name]: results.purchasedPrizes };
+        }),
+      );
+
+      Promise.all(gatherPrizes).then((res) => {
+        sendGatheredPrizes();
+      });
     }
   },
 
@@ -144,6 +216,16 @@ const user = {
       },
     );
   },
+  fetchEvents: (req, res) => {
+    User.findById(req.user.id, (err, docs) => {
+      if (err) {
+        console.log(err);
+        return res.sendStatus(500);
+      }
+      return res.send(docs.events);
+    });
+  },
+
   fetchChilds: (req, res) => {
     let ids;
     console.log(req.query.id);
@@ -159,6 +241,7 @@ const user = {
       console.log(childAccs);
       return childAccs;
     }
+
     async function gatherIds() {
       User.findById(req.user.id, (err, docs) => {
         if (err) {

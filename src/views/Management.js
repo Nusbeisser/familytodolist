@@ -13,19 +13,35 @@ import {
 } from '../actions/index';
 
 const StyledGrid = styled.div`
-  position: absolute;
-  top: 70px;
-  left: 12.5vw;
+  position: relative;
+  max-width: 80%;
+  top: 100px;
+  left: 25%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 185px;
-`;
+  grid-gap: 0px;
+  justify-content: center;
 
+  @media (min-width: 480px) {
+    left: 25%;
+  }
+  @media (min-width: 768px) {
+    left: 15%;
+  }
+  @media (min-width: 1024px) {
+    left: 15%;
+  }
+  @media (min-width: 1600px) {
+    left: 13%;
+  }
+`;
+const StyledButtonMaring = styled.div`
+  position: relative;
+  width: 100%;
+  //margin-left: 80px;
+`;
 const StyledButton = styled(Button)`
-  position: absolute;
-  top: -150px;
-  left: 1280px;
-  margin-top: 200px;
+  margin: auto;
 `;
 
 class Menagement extends React.Component {
@@ -53,6 +69,9 @@ class Menagement extends React.Component {
     return (
       <>
         <MainTemplate />
+        <StyledButtonMaring>
+          <StyledButton onClick={this.openAddAccount}>Add account</StyledButton>
+        </StyledButtonMaring>
         <StyledGrid>
           {childAccs.map(({ name, points, tasksDone, activeTasks, _id }) => (
             <AccountContainer
@@ -74,7 +93,6 @@ class Menagement extends React.Component {
             userID={userID}
           />
         ) : null}
-        <StyledButton onClick={this.openAddAccount}>Add account</StyledButton>
       </>
     );
   }

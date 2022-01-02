@@ -40,6 +40,10 @@ const UserSchema = new Schema({
     type: Array,
     default: [],
   },
+  purchasedPrizes: {
+    type: Array,
+    default: [],
+  },
 });
 
 UserSchema.plugin(passportLocalMongoose);

@@ -16,8 +16,12 @@ import {
   ADD_PRIZE_SUCCESS,
   FETCH_PRIZES_SUCCESS,
   DELETE_PRIZE_SUCCESS,
+  PURCHASE_PRIZE_SUCCESS,
   TASK_DONE_SUCCESS,
   TASK_IMPROVE_SUCCESS,
+  FETCH_EVENTS_SUCCESS,
+  FETCH_PURCHASEDPRIZES_SUCCESS,
+  PRIZE_REALIZED_SUCCESS,
 } from '../actions/index';
 
 const initialState = {
@@ -26,6 +30,7 @@ const initialState = {
   authed: sessionStorage.getItem('authed') ? JSON.parse(sessionStorage.getItem('authed')) : false,
   childAccs: [],
   prizes: [],
+  purchasedPrizes: {},
   events: [],
   points: 0,
 };
@@ -81,6 +86,26 @@ const rootReducer = (state = initialState, action) => {
         prizes: state.prizes.filter((item) => item._id !== action.payload.id),
       };
 
+    case PURCHASE_PRIZE_SUCCESS:
+      console.log(action.payload);
+      return {
+        ...state,
+        purchasedPrizes: [...state.purchasedPrizes, action.payload],
+        points: state.points - action.payload.cost,
+      };
+
+    case PRIZE_REALIZED_SUCCESS:
+      console.log('PRIZE_REALIZED_SUCCESS');
+      console.log(action.payload);
+      const newArray = state.purchasedPrizes[action.payload.ownerName].filter(
+        (item) => item._id !== action.payload.id,
+      );
+      return update(state, {
+        purchasedPrizes: {
+          [action.payload.ownerName]: { $set: newArray },
+        },
+      });
+
     case DELETE_CHILD_SUCCESS:
       console.log('DELETE_CHILD_SUCCES');
       console.log(action.id);
@@ -105,6 +130,13 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         childAccs: action.payload.data,
         shownAccId: action.payload.data[0]._id,
+      };
+
+    case FETCH_EVENTS_SUCCESS:
+      console.log('FETCH_EVENTS_SUCCES');
+      return {
+        ...state,
+        events: action.payload.data,
       };
 
     case TASK_DONE_SUCCESS:
@@ -218,6 +250,15 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         prizes: action.payload.data.prizes,
         points: action.payload.data.points,
+      };
+
+    case FETCH_PURCHASEDPRIZES_SUCCESS:
+      console.log('FETCH_PURCHASED_PRIZES');
+      console.log(action.payload.data);
+      console.log(Object.keys(action.payload.data));
+      return {
+        ...state,
+        purchasedPrizes: action.payload.data,
       };
 
     default:

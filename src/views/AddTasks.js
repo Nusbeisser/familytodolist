@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 import React from 'react';
@@ -12,22 +13,36 @@ import {
   addTask as addTaskAction,
   chooseAccount as chooseAccountAction,
   fetchChilds as fetchChildsAction,
+  fetchEvents as fetchEventsAction,
 } from '../actions/index';
 
 const StyledWrapper = styled.div`
-  position: absolute;
+  position: relative;
+  width: 80%;
   top: 70px;
   left: 12.5vw;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 185px;
-  background-color: blue;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 10px;
+
+  @media (min-width: 480px) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  @media (min-width: 1600px) {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
 `;
 
 const StyledCalendarWrapper = styled.div`
-  position: absolute;
+  position: relative;
   display: block;
-  top: 300px;
+  top: 100px;
   left: 12.5vw;
   width: 80%;
 
@@ -41,8 +56,10 @@ class AddTasks extends React.Component {
   };
 
   componentDidMount() {
+    const { accessLevel } = this.props;
     const { fetchChilds } = this.props;
-    fetchChilds();
+    const { fetchEvents } = this.props;
+    accessLevel > 0 ? fetchChilds() : fetchEvents();
   }
 
   showModal = () => {
@@ -135,8 +152,8 @@ const mapDispatchToProps = (dispatch) => ({
   addTask: (values, shownAccId) => dispatch(addTaskAction(values, shownAccId)),
   chooseAccount: (id) => dispatch(chooseAccountAction(id)),
   fetchChilds: (id) => dispatch(fetchChildsAction(id)),
+  fetchEvents: () => dispatch(fetchEventsAction()),
 });
-// ^^^ nie przekazuje id z modala tu trzeba pomodzić
 AddTasks.propTypes = {
   addTask: propTypes.func.isRequired,
   childAccs: propTypes.arrayOf(propTypes.object),
@@ -145,6 +162,7 @@ AddTasks.propTypes = {
   chooseAccount: propTypes.func,
   accessLevel: propTypes.number.isRequired,
   events: propTypes.arrayOf(propTypes.object),
+  fetchEvents: propTypes.func.isRequired,
 };
 
 AddTasks.defaultProps = {

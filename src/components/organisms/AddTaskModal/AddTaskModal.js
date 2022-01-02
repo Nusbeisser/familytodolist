@@ -11,8 +11,10 @@ const StyledWrapper = styled.div`
   position: absolute;
   width: 600px;
   height: 600px;
-  top: 22vh;
-  left: 40vw;
+  top: 50%;
+  left: 50%;
+  margin-top: -400px;
+  margin-left: -300px;
   background-color: #cccccc;
   align-items: center;
   padding-top: 20px;
@@ -36,7 +38,7 @@ const StyledTextarea = styled.textarea`
 
 const StyledButton = styled(Button)`
   margin-left: 165px;
-  margin-top: 30px;
+  margin-top: 5px;
 `;
 const StyledInput = styled(Input)`
   width: 150px;

@@ -11,8 +11,10 @@ const StyledWrapper = styled.div`
   position: absolute;
   width: 600px;
   height: 600px;
-  top: 22vh;
-  left: 40vw;
+  top: 50%;
+  left: 50%;
+  margin-top: -300px;
+  margin-left: -300px;
   background-color: #cccccc;
   align-items: center;
   padding-top: 20px;
