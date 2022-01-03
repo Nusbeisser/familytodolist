@@ -1,5 +1,5 @@
 const express = require('express');
-const { note, user, task } = require('../controllers');
+const { user, task } = require('../controllers');
 
 const router = express.Router();
 
@@ -27,6 +27,7 @@ router.get('/fetchPurchasedPrizes', user.fetchPurchasedPrizes);
 
 // test
 router.get('/helloworld', (req, res) => {
+  console.log(req);
   res.send('Hello world');
 });
 

@@ -2,9 +2,9 @@
   "name": "notes",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "/src/app.js",
   "scripts": {
-    "start": "src/app.js",
+    "start": "nodemon --exec babel-node src/app.js",
     "web": "src/app.js"
   },
   "keywords": [],
