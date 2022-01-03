@@ -35,7 +35,7 @@ const StyledWrapper = styled.div`
     width: 100px;
   }
   @media (min-width: 1600px) {
-    width: 150px;
+    width: 110px;
   }
 `;
 
@@ -60,7 +60,7 @@ const StyledNav = styled.div`
     left: 17px;
   }
   @media (min-width: 1600px) {
-    left: 38px;
+    left: 22px;
   }
   @media (min-height: 600px) {
     top: 180px;
@@ -116,7 +116,7 @@ const Sidebar = () =>
       <StyledWrapper>
         <NavLink to="/">
           <StyledLogo>
-            <h1>FamilyToDoApp</h1>
+            <h1>Family ToDo App</h1>
           </StyledLogo>
         </NavLink>
 

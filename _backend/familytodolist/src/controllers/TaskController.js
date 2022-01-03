@@ -71,7 +71,7 @@ const task = {
 
     User.findByIdAndUpdate(
       req.body.params.shownAccId,
-      { $inc: { points: taskPoints.points } },
+      { $inc: { points: taskPoints.points, tasksDone: 1 } },
       { multi: true },
       (err, result) => {
         if (err) {

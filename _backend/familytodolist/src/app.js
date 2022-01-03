@@ -20,7 +20,7 @@ app.use(morgan('combined'));
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:9000',
   }),
 );
 passport.use(new LocalStrategy(User.authenticate()));
@@ -43,12 +43,12 @@ passport.deserializeUser((id, done) => {
 
 app.use(
   session({
-    secret: 'roman',
+    secret: 'lukanio',
     resave: false,
     saveUninitialized: true,
   }),
 );
-app.use(cookieParser('roman'));
+app.use(cookieParser('lukanio'));
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());

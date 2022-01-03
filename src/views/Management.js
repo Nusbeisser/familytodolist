@@ -72,14 +72,15 @@ class Menagement extends React.Component {
         <StyledButtonMaring>
           <StyledButton onClick={this.openAddAccount}>Add account</StyledButton>
         </StyledButtonMaring>
+        {(console.log('childAccs w management'), console.log(childAccs))}
         <StyledGrid>
-          {childAccs.map(({ name, points, tasksDone, activeTasks, _id }) => (
+          {childAccs.map(({ name, points, tasksDone, _id, events }) => (
             <AccountContainer
               id={_id}
               name={name}
               points={points}
               tasksDone={tasksDone}
-              activeTasks={activeTasks}
+              activeTasks={events.length}
               key={_id}
               deleteChild={deleteChild}
               userID={userID}

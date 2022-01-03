@@ -10,8 +10,6 @@ import {
 } from '../actions/index';
 
 const StyledWrapper = styled.div`
-  background-color: red;
-  weight: 100vw;
   min-height: 92vh;
   padding-left: 50px;
 `;
@@ -22,11 +20,10 @@ const StyledHeader = styled.div`
 `;
 
 const StyledPrizesWrapper = styled.div`
-  background-color: yellow;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-
+  padding-left: 10px;
   @media (min-width: 1440px) {
     flex-direction: row;
   }
@@ -37,6 +34,29 @@ const StyledPrizesHeader = styled.div`
 `;
 const StyledColumn = styled.div`
   margin: 50px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  min-width: 25%;
+  background-color: lightgrey;
+`;
+
+const StyledColumnChild = styled.div`
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  margin: 50px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  min-width: 25%;
+  background-color: lightgrey;
+  max-width: 500px;
+`;
+
+const StyledChildContent = styled.div`
+  align-items: center;
   text-align: center;
 `;
 
@@ -50,42 +70,71 @@ class MainPage extends React.Component {
     const { accessLevel } = this.props;
     const { purchasedPrizes } = this.props;
     const { prizeRealized } = this.props;
+    const { tasksDone, events, points } = this.props;
     const childNamesArray = Object.keys(purchasedPrizes);
 
     return (
       <>
         <MainTemplate />
-        <StyledWrapper>
-          <StyledHeader>
-            <h1>Good morning!</h1>
-          </StyledHeader>
-          <StyledPrizesHeader>There are prizes to realize:</StyledPrizesHeader>
-          <StyledPrizesWrapper>
-            {childNamesArray.map((ownerName) => (
-              <StyledColumn key={ownerName}>
-                <h1>{ownerName}</h1>
-                {purchasedPrizes[ownerName].length > 0 ? (
-                  purchasedPrizes[ownerName].map(({ _id, name, ownerId }) => (
-                    <PrizesContainer
-                      id={_id}
-                      key={_id}
-                      name={name}
-                      accessLevel={accessLevel}
-                      purchased
-                      ownerId={ownerId}
-                      prizeRealized={prizeRealized}
-                      ownerName={ownerName}
-                    />
-                  ))
-                ) : (
-                  <>
-                    <h1>There are no prizes to realize 😭</h1>
-                  </>
-                )}
-              </StyledColumn>
-            ))}
-          </StyledPrizesWrapper>
-        </StyledWrapper>
+        {accessLevel > 0 ? (
+          <StyledWrapper>
+            <StyledHeader>
+              <h1>Good morning!</h1>
+            </StyledHeader>
+            <StyledPrizesHeader>There are prizes to realize:</StyledPrizesHeader>
+            <StyledPrizesWrapper>
+              {childNamesArray.map((ownerName) => (
+                <StyledColumn key={ownerName}>
+                  <h1>{ownerName}</h1>
+                  {purchasedPrizes[ownerName].length > 0 ? (
+                    purchasedPrizes[ownerName].map(({ _id, name, ownerId }) => (
+                      <div style={{ marginTop: '30px' }}>
+                        <PrizesContainer
+                          id={_id}
+                          key={_id}
+                          name={name}
+                          accessLevel={accessLevel}
+                          purchased
+                          ownerId={ownerId}
+                          prizeRealized={prizeRealized}
+                          ownerName={ownerName}
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <>
+                      <h1>There are no prizes to realize 😭</h1>
+                    </>
+                  )}
+                </StyledColumn>
+              ))}
+            </StyledPrizesWrapper>
+          </StyledWrapper>
+        ) : (
+          <>
+            <StyledHeader>
+              <h1>Good morning!</h1>
+            </StyledHeader>
+            <StyledChildContent>
+              Your stats:
+              <ul>
+                <li>{points} points,</li>
+                <li>{events.length} tasks to realize,</li>
+                <li>{tasksDone} tasks done.</li>
+              </ul>
+              <br />
+              <br />
+              Your prizes:
+              <StyledColumnChild>
+                {purchasedPrizes.map(({ _id, name }) => (
+                  <div style={{ marginTop: '30px' }}>
+                    <PrizesContainer id={_id} key={_id} name={name} purchased />
+                  </div>
+                ))}
+              </StyledColumnChild>
+            </StyledChildContent>
+          </>
+        )}
       </>
     );
   }
@@ -104,7 +153,13 @@ MainPage.defaultProps = {
   fetchPurchasedPrizes: null,
 };
 
-const mapStateToProps = ({ accessLevel, purchasedPrizes }) => ({ accessLevel, purchasedPrizes });
+const mapStateToProps = ({ accessLevel, purchasedPrizes, tasksDone, events, points }) => ({
+  accessLevel,
+  purchasedPrizes,
+  tasksDone,
+  events,
+  points,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   fetchPurchasedPrizes: dispatch(fetchPurchasedPrizesAction()),

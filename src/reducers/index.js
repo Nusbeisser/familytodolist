@@ -30,9 +30,10 @@ const initialState = {
   authed: sessionStorage.getItem('authed') ? JSON.parse(sessionStorage.getItem('authed')) : false,
   childAccs: [],
   prizes: [],
-  purchasedPrizes: {},
+  purchasedPrizes: [],
   events: [],
   points: 0,
+  tasksDone: 0,
 };
 
 const rootReducer = (state = initialState, action) => {

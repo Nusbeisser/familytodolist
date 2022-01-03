@@ -52,14 +52,18 @@ class Calendar extends React.Component {
     return (
       <>
         <FullCalendar
-          customButtons={{
-            addButton: {
-              text: 'Add task',
-              click() {
-                showModal();
-              },
-            },
-          }}
+          customButtons={
+            accessLevel > 0
+              ? {
+                  addButton: {
+                    text: 'Add task',
+                    click() {
+                      showModal();
+                    },
+                  },
+                }
+              : null
+          }
           dateClick={(e) => {
             console.log(e);
           }}

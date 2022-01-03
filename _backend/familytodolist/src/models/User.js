@@ -28,10 +28,6 @@ const UserSchema = new Schema({
     type: Number,
     default: 0,
   },
-  activeTasks: {
-    type: Number,
-    default: 0,
-  },
   events: {
     type: Array,
     default: [],

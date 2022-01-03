@@ -141,24 +141,29 @@ const user = {
   fetchPurchasedPrizes: async (req, res) => {
     let prizes = {};
     console.log(req.user.id);
-    const childAccs = [];
-    const gatherChilds = await User.findById(req.user.id).then((results) =>
-      results.childAccs.map((x) => childAccs.push(x._id)),
-    );
-
-    function sendGatheredPrizes() {
-      res.send(prizes);
-    }
-    if (gatherChilds) {
-      const gatherPrizes = childAccs.map((x) =>
-        User.findById(x).then((results) => {
-          prizes = { ...prizes, [results.name]: results.purchasedPrizes };
-        }),
+    console.log(req.user);
+    if (req.user.accessLevel > 0) {
+      const childAccs = [];
+      const gatherChilds = await User.findById(req.user.id).then((results) =>
+        results.childAccs.map((x) => childAccs.push(x._id)),
       );
 
-      Promise.all(gatherPrizes).then((res) => {
-        sendGatheredPrizes();
-      });
+      function sendGatheredPrizes() {
+        res.send(prizes);
+      }
+      if (gatherChilds) {
+        const gatherPrizes = childAccs.map((x) =>
+          User.findById(x).then((results) => {
+            prizes = { ...prizes, [results.name]: results.purchasedPrizes };
+          }),
+        );
+
+        Promise.all(gatherPrizes).then((res) => {
+          sendGatheredPrizes();
+        });
+      }
+    } else {
+      User.findById(req.user.id).then((results) => res.send(results.purchasedPrizes));
     }
   },
 

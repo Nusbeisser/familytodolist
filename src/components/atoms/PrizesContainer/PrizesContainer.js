@@ -15,17 +15,15 @@ const StyledWrapper = styled.div`
   height: 450px;
   width: 35vw;
   top: 70px;
-
+  border-radius: 10px;
   box-shadow: 0px 10px 30px -10px hsla(0, 0%, 0%, 0.1);
 `;
 
 const StyledHeading = styled.div`
   display: flex;
   min-height: 150px;
-  margin-top: 30px;
   background-color: yellowgreen;
   border-radius: 10px;
-  margin-left: 10px;
 `;
 
 const StyledDeleteIcon = styled.img`
@@ -46,7 +44,7 @@ const StyledIcon = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   padding: 10px 100px 100px 10px;
-  margin-left: 20px;
+  margin: 0 20px;
 `;
 
 const StyledName = styled.div`
@@ -76,6 +74,7 @@ const StyledName = styled.div`
 const StyledInfo = styled.div`
   padding-left: 30px;
   font-size: 40px;
+  background-color: white;
 `;
 
 const PrizesContainer = ({
@@ -119,7 +118,7 @@ const PrizesContainer = ({
         <p>Cost: {cost} points</p>
       </StyledInfo>
     </StyledWrapper>
-  ) : (
+  ) : accessLevel < 1 ? (
     <StyledHeading>
       <StyledName>{name}</StyledName>
       <StyledDeleteIcon
@@ -128,6 +127,11 @@ const PrizesContainer = ({
           confirm('Is this prize already realized?') ? prizeRealized(id, ownerId, ownerName) : null
         }
       />
+    </StyledHeading>
+  ) : (
+    // for child mainpage
+    <StyledHeading>
+      <StyledName>{name}</StyledName>
     </StyledHeading>
   );
 

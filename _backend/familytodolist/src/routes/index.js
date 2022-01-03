@@ -25,4 +25,9 @@ router.get('/fetchPrizes', user.fetchPrizes);
 router.get('/fetchEvents', user.fetchEvents);
 router.get('/fetchPurchasedPrizes', user.fetchPurchasedPrizes);
 
+// test
+router.get('/helloworld', (req, res) => {
+  res.send('Hello world');
+});
+
 module.exports = router;
