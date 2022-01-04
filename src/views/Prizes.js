@@ -18,7 +18,7 @@ const StyledWrapper = styled.div`
   position: relative;
   width: 80%;
   top: 70px;
-  left: 12.5vw;
+  left: 15vw;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
@@ -27,7 +27,7 @@ const StyledWrapper = styled.div`
 const StyledButtonMaring = styled.div`
   position: relative;
   width: 100%;
-  //margin-left: 80px;
+  margin-top: 20px;
 `;
 const StyledButton = styled(Button)`
   margin: auto;

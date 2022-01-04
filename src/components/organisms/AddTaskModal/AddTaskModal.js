@@ -44,7 +44,6 @@ const StyledInput = styled(Input)`
   width: 150px;
 `;
 
-// zmienić na klasę i przerzucić isAllDayTaskHandler i isAllDayTask tutaj
 const AddTaskModal = ({ hideModal, isAllDayTaskHandler, isAllDayTask, addTask, shownAccId }) => (
   <StyledWrapper>
     <StyledButtonClose onClick={hideModal} />

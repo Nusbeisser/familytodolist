@@ -8,6 +8,9 @@
     "start-dev": "nodemon --exec babel-node src/app.js",
     "web": "src/app.js"
   },
+  "engines": {
+    "node": ">=6.9.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

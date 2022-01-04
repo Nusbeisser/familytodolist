@@ -10,6 +10,7 @@ import GlobalStyle from '../theme/GlobalStyle';
 import { register as registerAction, authenticate as authenticateAction } from '../actions/index';
 
 const StyledBackground = styled.div`
+  position: relative;
   background-color: yellowgreen;
   height: 100vh;
   width: 100vw;
@@ -56,7 +57,7 @@ class InitialView extends React.Component {
         <GlobalStyle />
         <StyledBackground>
           <StyledWrapper>
-            <h1>FamilyToDoList</h1>
+            <h2>FamilyToDoList</h2>
             Your family task manager.
             <Formik
               initialValues={{ username: '', password: '' }}
@@ -100,7 +101,7 @@ class InitialView extends React.Component {
                         <p />
                         Don`t have an account?
                         <StyledToggleFunc onClick={() => this.setState({ isLoginActive: false })}>
-                          <h1>Sign up</h1>
+                          <h2>Sign up</h2>
                         </StyledToggleFunc>
                       </>
                     ) : (
@@ -108,7 +109,7 @@ class InitialView extends React.Component {
                         <p />
                         Already have an account?
                         <StyledToggleFunc onClick={() => this.setState({ isLoginActive: true })}>
-                          <h1>Log In</h1>
+                          <h2>Log In</h2>
                         </StyledToggleFunc>
                       </>
                     )}

@@ -18,7 +18,7 @@ const StyledWrapper = styled.div`
   left: 0;
   padding: 25px 0;
   width: 150px;
-  height: 100vh;
+  height: 100%;
   background-color: yellowgreen;
   display: flex;
   flex-direction: column;
@@ -75,7 +75,6 @@ const StyledButtonIcon = styled(ButtonIcon)`
   margin-top: 5px;
 `;
 
-// stopgap
 const myLogout = () => {
   axios.post('http://localhost:9000/api/user/logout');
   sessionStorage.clear();
@@ -109,7 +108,6 @@ const Sidebar = () =>
           <ButtonIcon icon={LogoutIcon} onClick={() => myLogout()} />
         </StyledLogout>
       </StyledWrapper>
-      )
     </>
   ) : (
     <>
@@ -119,7 +117,6 @@ const Sidebar = () =>
             <h1>Family ToDo App</h1>
           </StyledLogo>
         </NavLink>
-
         <StyledNav>
           <NavLink to="/addtasks">
             <StyledButtonIcon icon={AddTaskIcon} />

@@ -38,7 +38,7 @@ const StyledGrid = styled.div`
 const StyledButtonMaring = styled.div`
   position: relative;
   width: 100%;
-  //margin-left: 80px;
+  margin-top: 20px;
 `;
 const StyledButton = styled(Button)`
   margin: auto;
