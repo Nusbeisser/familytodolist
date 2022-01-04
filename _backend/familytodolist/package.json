@@ -6,7 +6,7 @@
   "scripts": {
     "start": "src/app.js",
     "start-dev": "nodemon --exec babel-node src/app.js",
-    "web": "src/app.js"
+    "web": "node src/app.js"
   },
   "engines": {
     "node": ">=6.9.0"
