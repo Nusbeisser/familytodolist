@@ -9,7 +9,7 @@
     "web": "node src/app.js"
   },
   "engines": {
-    "node": ">=6.9.0"
+    "node": "14.17.6"
   },
   "keywords": [],
   "author": "",
