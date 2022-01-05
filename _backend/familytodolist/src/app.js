@@ -20,7 +20,7 @@ app.use(morgan('combined'));
 app.use(
   cors({
     credentials: true,
-    origin: 'https://familytodolist.netlify.app',
+    origin: '*',
   }),
 );
 passport.use(new LocalStrategy(User.authenticate()));
