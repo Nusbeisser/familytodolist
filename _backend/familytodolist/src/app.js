@@ -20,7 +20,7 @@ app.use(morgan('combined'));
 app.use(
   cors({
     credentials: true,
-    origin: '*',
+    origin: 'https://familytodolist.netlify.app',
   }),
 );
 passport.use(new LocalStrategy(User.authenticate()));
@@ -40,7 +40,6 @@ passport.deserializeUser((id, done) => {
     done(err, userInformation);
   });
 });
-app.set('trust proxy', 1);
 app.use(
   session({
     secret: 'roman',
