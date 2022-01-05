@@ -27,4 +27,5 @@ const AllDayTaskSchema = new Schema({
 
 mongoose.model('alldaytasks', AllDayTaskSchema);
 
-export default AllDayTaskSchema;
+module.exports = mongoose.model('alldaytasks', AllDayTaskSchema);
+// export default AllDayTaskSchema; 05.01.2022

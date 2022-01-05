@@ -37,4 +37,5 @@ const TaskSchema = new Schema({
 
 mongoose.model('tasks', TaskSchema);
 
-export default TaskSchema;
+module.exports = mongoose.model('tasks', TaskSchema);
+// export default TaskSchema; 05.01.2022
