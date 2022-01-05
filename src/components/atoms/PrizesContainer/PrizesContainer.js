@@ -118,7 +118,7 @@ const PrizesContainer = ({
         <p>Cost: {cost} points</p>
       </StyledInfo>
     </StyledWrapper>
-  ) : accessLevel < 1 ? (
+  ) : accessLevel > 0 ? (
     <StyledHeading>
       <StyledName>{name}</StyledName>
       <StyledDeleteIcon
