@@ -55,10 +55,13 @@ export const PRIZE_REALIZED_REQUEST = 'PRIZE_REALIZED_REQUEST';
 export const PRIZE_REALIZED_SUCCESS = 'PRIZE_REALIZED_SUCCESS';
 export const PRIZE_REALIZED_FAILURE = 'PRIZE_REALIZED_FAILURE';
 
+const API_URL = 'https://myfamilytodolist.herokuapp.com';
+const LOCAL_HOST = 'http://localhost:9000';
+
 export const addTask = (values, shownAccId) => (dispatch) => {
   dispatch({ type: ADD_TASK_REQUEST });
   axios
-    .post('http://localhost:9000/api/addTask', {
+    .post(`${API_URL}/api/addTask`, {
       title: values.title,
       date: values.date,
       start: values.start,
@@ -83,7 +86,7 @@ export const addTask = (values, shownAccId) => (dispatch) => {
 export const deleteTask = (taskId, shownAccId) => (dispatch) => {
   dispatch({ type: DELETE_TASK_REQUEST });
   return axios
-    .post('http://localhost:9000/api/deleteTask', {
+    .post(`${API_URL}/api/deleteTask`, {
       params: {
         taskId,
         shownAccId,
@@ -108,7 +111,7 @@ export const deletePrize = (id) => (dispatch) => {
   console.log(id);
   dispatch({ type: DELETE_TASK_REQUEST });
   return axios
-    .post('http://localhost:9000/api/deletePrize', {
+    .post(`${API_URL}/api/deletePrize`, {
       params: {
         id,
       },
@@ -129,7 +132,7 @@ export const deletePrize = (id) => (dispatch) => {
 export const taskToImprove = (taskId, shownAccId) => (dispatch) => {
   dispatch({ type: TASK_IMPROVE_REQUEST });
   return axios
-    .post('http://localhost:9000/api/taskImprove', {
+    .post(`${API_URL}/api/taskImprove`, {
       params: {
         taskId,
         shownAccId,
@@ -153,7 +156,7 @@ export const taskDone = (taskId) => (dispatch, getState) => {
   dispatch({ type: TASK_DONE_REQUEST });
 
   return axios
-    .post('http://localhost:9000/api/taskDone', {
+    .post(`${API_URL}/api/taskDone`, {
       params: {
         taskId,
       },
@@ -176,7 +179,7 @@ export const confirmDoneTask = (taskId, shownAccId, points) => (dispatch) => {
   dispatch({ type: CONFIRM_DONE_REQUEST });
 
   return axios
-    .post('http://localhost:9000/api/confirmDoneTask', {
+    .post(`${API_URL}/api/confirmDoneTask`, {
       params: {
         taskId,
         shownAccId,
@@ -202,7 +205,7 @@ export const fetchPrizes = () => (dispatch) => {
   dispatch({ type: FETCH_PRIZES_REQUEST });
   console.log('fetchPrizes');
   return axios
-    .get('http://localhost:9000/api/fetchPrizes')
+    .get(`${API_URL}/api/fetchPrizes`)
     .then(({ data }) => {
       console.log(data);
       dispatch({
@@ -222,7 +225,7 @@ export const fetchPurchasedPrizes = () => (dispatch) => {
   dispatch({ type: FETCH_PURCHASEDPRIZES_REQUEST });
   console.log('fetchPurchasedPrizes');
   return axios
-    .get('http://localhost:9000/api/fetchPurchasedPrizes')
+    .get(`${API_URL}/api/fetchPurchasedPrizes`)
     .then(({ data }) => {
       console.log(data);
       dispatch({
@@ -242,7 +245,7 @@ export const addPrize = (values) => (dispatch) => {
   dispatch({ type: ADD_PRIZE_REQUEST });
 
   return axios
-    .post('http://localhost:9000/api/addPrize', {
+    .post(`${API_URL}/api/addPrize`, {
       params: {
         prize: values,
       },
@@ -266,7 +269,7 @@ export const prizeRealized = (id, ownerId, ownerName) => (dispatch) => {
   dispatch({ type: PRIZE_REALIZED_REQUEST });
 
   return axios
-    .post('http://localhost:9000/api/prizeRealized', {
+    .post(`${API_URL}/api/prizeRealized`, {
       params: {
         id,
         ownerId,
@@ -285,7 +288,7 @@ export const purchasePrize = (id, name, cost, description) => (dispatch) => {
   dispatch({ type: PURCHASE_PRIZE_REQUEST });
   console.log(name);
   return axios
-    .post('http://localhost:9000/api/purchasePrize', {
+    .post(`${API_URL}/api/purchasePrize`, {
       params: {
         _id: id,
         name,
@@ -306,7 +309,7 @@ export const fetchEvents = () => (dispatch) => {
   dispatch({ type: FETCH_EVENTS_REQUEST });
 
   return axios
-    .get('http://localhost:9000/api/fetchEvents', {})
+    .get(`${API_URL}/api/fetchEvents`, {})
     .then(({ data }) => {
       console.log(data);
       dispatch({
@@ -328,7 +331,7 @@ export const fetchChilds = () => (dispatch, getState) => {
   if (getState().childAccs.length === 0) {
     console.log('getState().childAccs.length === 0');
     return axios
-      .get('http://localhost:9000/api/fetchChilds', {
+      .get(`${API_URL}/api/fetchChilds`, {
         params: {
           id: getState().childAccs.map((obj) => obj._id),
         },
@@ -351,7 +354,7 @@ export const fetchChilds = () => (dispatch, getState) => {
   if (getState().childAccs[0].events.length === 0) {
     console.log('getState().childAccs[0].events.length === 0');
     return axios
-      .get('http://localhost:9000/api/fetchChilds', {
+      .get(`${API_URL}/api/fetchChilds`, {
         params: {
           id: getState().childAccs.map((obj) => obj._id),
         },
@@ -387,7 +390,7 @@ export const register = (username, password) => (dispatch) => {
   dispatch({ type: REGISTER_REQUEST });
 
   return axios
-    .post('http://localhost:9000/api/user/register', {
+    .post(`${API_URL}/api/user/register`, {
       username,
       password,
     })
@@ -404,7 +407,7 @@ export const register = (username, password) => (dispatch) => {
 export const registerChild = (name, username, password, userID, accessLevel) => (dispatch) => {
   dispatch({ type: REGISTER_REQUEST });
   return axios
-    .post('http://localhost:9000/api/user/register', {
+    .post(`${API_URL}/api/user/register`, {
       name,
       username,
       password,
@@ -424,7 +427,7 @@ export const registerChild = (name, username, password, userID, accessLevel) => 
 export const deleteChild = (id, userID) => (dispatch) => {
   dispatch({ type: DELETE_CHILD_REQUEST });
   return axios
-    .post('http://localhost:9000/api/user/deletechild', {
+    .post(`${API_URL}/api/user/deletechild`, {
       id,
       userID,
     })
@@ -441,7 +444,7 @@ export const authenticate = (username, password) => (dispatch) => {
   dispatch({ type: AUTH_REQUEST });
 
   return axios
-    .post('http://localhost:9000/api/user/login', {
+    .post(`${API_URL}/api/user/login`, {
       username,
       password,
     })
