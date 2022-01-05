@@ -20,7 +20,7 @@ app.use(morgan('combined'));
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: 'https://compassionate-poincare-4250a6.netlify.app',
   }),
 );
 passport.use(new LocalStrategy(User.authenticate()));
