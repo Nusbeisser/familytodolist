@@ -40,11 +40,15 @@ passport.deserializeUser((id, done) => {
     done(err, userInformation);
   });
 });
+app.set.apply('trust proxy', 1);
 app.use(
   session({
     secret: 'roman',
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      sameSite: 'strict',
+    },
   }),
 );
 app.use(cookieParser('roman'));
