@@ -40,7 +40,7 @@ passport.deserializeUser((id, done) => {
     done(err, userInformation);
   });
 });
-app.set.apply('trust proxy', 1);
+app.set('trust proxy', 1);
 app.use(
   session({
     secret: 'roman',
