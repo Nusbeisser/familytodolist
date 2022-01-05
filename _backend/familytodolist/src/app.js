@@ -53,7 +53,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(process.env.NODE_DATABASE, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(
+  'mongodb+srv://admin:admin@favnote.knxaw.mongodb.net/FavNote?retryWrites=true&w=majority',
+  { useNewUrlParser: true, useUnifiedTopology: true },
+);
 
 const conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));
