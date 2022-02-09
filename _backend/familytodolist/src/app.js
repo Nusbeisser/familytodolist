@@ -49,10 +49,11 @@ app.use(
     secret: 'roman',
     resave: false,
     saveUninitialized: true,
-    // cookie: {
-    //   sameSite: 'none',
-    //   secure: 'true',
-    // },
+    // off on localhost, needed on netlify
+    cookie: {
+      sameSite: 'none',
+      secure: 'true',
+    },
   }),
 );
 app.use(cookieParser('roman'));
