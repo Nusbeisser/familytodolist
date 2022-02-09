@@ -1,10 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ToggleButton = () => (
+const ToggleButton = ({ darkModeFunction, darkMode, setDarkMode }) => (
   <>
+    {console.log(document.body.classList.contains('dark-mode'))}
     <CheckBoxWrapper>
-      <CheckBox id="checkbox" type="checkbox" />
+      <CheckBox
+        id="checkbox"
+        type="checkbox"
+        onClick={() => darkModeFunction()}
+        checked={darkMode}
+        onChange={() => setDarkMode(document.body.classList.contains('dark-mode'))}
+      />
       <CheckBoxLabel htmlFor="checkbox" />
     </CheckBoxWrapper>
   </>

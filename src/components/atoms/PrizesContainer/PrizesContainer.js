@@ -74,7 +74,6 @@ const StyledName = styled.div`
 const StyledInfo = styled.div`
   padding-left: 30px;
   font-size: 40px;
-  background-color: white;
 `;
 
 const PrizesContainer = ({

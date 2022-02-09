@@ -17,6 +17,10 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
     }
+    .dark-mode {
+        background-color: black;
+        color: white;
+    }
 
     .buttonIcon {
         background-color: transparent;

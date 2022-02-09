@@ -24,6 +24,7 @@ const StyledWrapper = styled.div`
 const StyledInput = styled(Input)`
   display: block;
   margin: 10px;
+  max-width: 400px;
 `;
 const StyledButtonClose = styled(ButtonClose)`
   margin-left: 400px;

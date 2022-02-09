@@ -14,13 +14,16 @@ const User = require('./models/User');
 
 const PORT = process.env.PORT || 9000;
 
+const NETLIFY = 'https://familytodolist.netlify.app';
+const LOCALHOST = 'http://localhost:3000';
+
 const app = express();
 app.use(bodyParser.json());
 app.use(morgan('combined'));
 app.use(
   cors({
     credentials: true,
-    origin: 'https://familytodolist.netlify.app',
+    origin: NETLIFY,
   }),
 );
 passport.use(new LocalStrategy(User.authenticate()));
@@ -46,10 +49,10 @@ app.use(
     secret: 'roman',
     resave: false,
     saveUninitialized: true,
-    cookie: {
-      sameSite: 'none',
-      secure: 'true',
-    },
+    // cookie: {
+    //   sameSite: 'none',
+    //   secure: 'true',
+    // },
   }),
 );
 app.use(cookieParser('roman'));
