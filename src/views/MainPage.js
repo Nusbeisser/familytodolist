@@ -145,12 +145,17 @@ MainPage.propTypes = {
   purchasedPrizes: propTypes.objectOf(propTypes.arrayOf(propTypes.objectOf(propTypes.shape))),
   prizeRealized: propTypes.func,
   fetchPurchasedPrizes: propTypes.objectOf(propTypes.shape),
+  tasksDone: propTypes.number,
+  events: propTypes.arrayOf(propTypes.objectOf(propTypes.shape)),
+  points: propTypes.number,
 };
-
 MainPage.defaultProps = {
   purchasedPrizes: null,
   prizeRealized: null,
   fetchPurchasedPrizes: null,
+  tasksDone: null,
+  events: null,
+  points: null,
 };
 
 const mapStateToProps = ({ accessLevel, purchasedPrizes, tasksDone, events, points }) => ({

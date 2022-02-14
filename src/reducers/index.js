@@ -8,6 +8,7 @@ import {
   ADD_TASK_SUCCESS,
   DELETE_TASK_SUCCESS,
   REGISTER_SUCCESS,
+  REGISTER_FAILURE,
   AUTH_SUCCESS,
   CHOOSE_ACCOUNT,
   FETCH_CHILDS_SUCCESS,
@@ -34,20 +35,12 @@ const initialState = {
   events: [],
   points: 0,
   tasksDone: 0,
+  registerMessage: '',
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TASK_SUCCESS:
-      // if (action.payload.values.start === '' || action.payload.values.end === '') {
-      //   delete action.payload.values.start;
-      //   delete action.payload.values.end;
-      // } else {
-      //   action.payload.values.start = `${action.payload.values.date}T${action.payload.values.start}`;
-      //   action.payload.values.end = `${action.payload.values.date}T${action.payload.values.end}`;
-      // }
-      // console.log(state.childAccs.findIndex((item) => item._id === action.payload.shownAccId));
-      // action.payload.values.id = Math.random().toString(36).substr(2, 9);
       return update(state, {
         childAccs: {
           [state.childAccs.findIndex((item) => item._id === action.payload.shownAccId)]: {
@@ -119,9 +112,20 @@ const rootReducer = (state = initialState, action) => {
     case REGISTER_SUCCESS:
       console.log('User Registered');
       console.log(action.data);
+      const errors = {};
+      errors.message = 'Account created, you can login now!';
       return {
         ...state,
         childAccs: [...state.childAccs, action.data],
+        registerMessage: errors,
+      };
+
+    case REGISTER_FAILURE:
+      console.log('register_failure');
+      console.log(action.errors);
+      return {
+        ...state,
+        registerMessage: action.errors,
       };
 
     case FETCH_CHILDS_SUCCESS:

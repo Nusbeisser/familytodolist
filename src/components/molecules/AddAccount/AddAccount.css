@@ -1,0 +1,70 @@
+.addModal-enter {
+  margin-top: -2000px;
+}
+.addModal-enter-active {
+  transition: margin-top 1000ms;
+}
+.addModal-exit-active {
+  margin-top: -2000px;
+  transition: margin-top 1000ms;
+}
+@media (min-width: 480px) {
+  .addModal-enter-active {
+    margin-top: -600px;
+  }
+  .addModal-enter-done {
+    margin-top: -600px;
+  }
+  .addModal-exit {
+    margin-top: -600px;
+  }
+  .addModal-exit-active {
+    margin-top: -2000px;
+    transition: margin-top 1000ms;
+  }
+}
+@media (min-width: 768px) {
+  .addModal-enter-active {
+    margin-top: -600px;
+  }
+  .addModal-enter-done {
+    margin-top: -600px;
+  }
+  .addModal-exit {
+    margin-top: -600px;
+  }
+  .addModal-exit-active {
+    margin-top: -2000px;
+    transition: margin-top 1000ms;
+  }
+}
+@media (min-width: 1024px) {
+  .addModal-enter-active {
+    margin-top: -250px;
+  }
+  .addModal-enter-done {
+    margin-top: -250px;
+  }
+  .addModal-exit {
+    margin-top: -250px;
+  }
+  .addModal-exit-active {
+    margin-top: -2000px;
+    transition: margin-top 1000ms;
+  }
+}
+@media (min-width: 1600px) {
+  .addModal-enter-active {
+    margin-top: -250px;
+  }
+  .addModal-enter-done {
+    margin-top: -250px;
+  }
+  .addModal-exit {
+    margin-top: -250px;
+  }
+  .addModal-exit-active {
+    margin-top: -2000px;
+    transition: margin-top 1000ms;
+  }
+}

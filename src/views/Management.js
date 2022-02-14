@@ -66,6 +66,7 @@ class Menagement extends React.Component {
     const { userID } = this.props;
     const { registerChild } = this.props;
     const { deleteChild } = this.props;
+
     return (
       <>
         <MainTemplate />
@@ -87,13 +88,13 @@ class Menagement extends React.Component {
             />
           ))}
         </StyledGrid>
-        {isAddAccountOpen ? (
-          <AddAccount
-            closeAddAccount={this.closeAddAccount}
-            registerChild={registerChild}
-            userID={userID}
-          />
-        ) : null}
+
+        <AddAccount
+          closeAddAccount={this.closeAddAccount}
+          registerChild={registerChild}
+          userID={userID}
+          isAddAccountOpen={isAddAccountOpen}
+        />
       </>
     );
   }

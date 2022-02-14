@@ -23,6 +23,11 @@ const StyledHeading = styled.div`
   min-width: 300px;
   background-color: yellowgreen;
   border-radius: 10px;
+
+  transition: 0.3s;
+  :hover {
+    opacity: ${({ tasks }) => (tasks ? '0.8' : '1')};
+  }
 `;
 
 const StyledAvatar = styled.img`
@@ -39,6 +44,11 @@ const StyledDeleteIcon = styled.img`
   cursor: pointer;
   align-self: center;
   margin: 0 auto;
+  transition: 0.3s;
+
+  :hover {
+    opacity: 0.5;
+  }
 `;
 const StyledName = styled.div`
   display: flex;
@@ -86,6 +96,7 @@ const AccountContainer = ({
     // active for choosen child
     active ? (
       <StyledHeading
+        tasks
         style={{ width: '15vw', cursor: 'pointer', border: '1px solid white', color: 'white' }}
         id={id}
         onClick={() => chooseAccount(id)}
@@ -95,6 +106,7 @@ const AccountContainer = ({
       </StyledHeading>
     ) : (
       <StyledHeading
+        tasks
         style={{ width: '15vw', cursor: 'pointer' }}
         id={id}
         onClick={() => chooseAccount(id)}

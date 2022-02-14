@@ -2,10 +2,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Formik, Form } from 'formik';
+import { CSSTransition } from 'react-transition-group';
 import Input from '../../atoms/Input/Input';
-// import ButtonIcon from '../../atoms/ButtonIcon/ButtonIcon';
 import ButtonClose from '../../atoms/ButtonClose/ButtonClose';
 import Button from '../../atoms/Button/Button';
+import '../../molecules/AddAccount/AddAccount.css';
 
 const StyledWrapper = styled.div`
   position: absolute;
@@ -13,7 +14,6 @@ const StyledWrapper = styled.div`
   height: 600px;
   top: 50%;
   left: 50%;
-  margin-top: -300px;
   margin-left: -300px;
   background-color: #cccccc;
   align-items: center;
@@ -44,51 +44,53 @@ const StyledInput = styled(Input)`
   width: 150px;
 `;
 
-const AddPrizeModal = ({ hideModal, addPrize }) => (
-  <StyledWrapper>
-    <StyledButtonClose onClick={hideModal} />
-    <Formik
-      initialValues={{ name: '', cost: '', description: '' }}
-      onSubmit={(values, { resetForm }) => {
-        addPrize(values);
-        resetForm({ values: '' });
-      }}
-    >
-      {({ values, handleChange, handleBlur }) => (
-        <Form>
-          <StyledInput
-            style={{ width: '500px' }}
-            placeholder="prize name"
-            type="text"
-            name="name"
-            value={values.name}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <p />
+const AddPrizeModal = ({ hideModal, addPrize, isModalOpen }) => (
+  <CSSTransition in={isModalOpen} timeout={1000} classNames="addModal" unmountOnExit>
+    <StyledWrapper>
+      <StyledButtonClose onClick={hideModal} />
+      <Formik
+        initialValues={{ name: '', cost: '', description: '' }}
+        onSubmit={(values, { resetForm }) => {
+          addPrize(values);
+          resetForm({ values: '' });
+        }}
+      >
+        {({ values, handleChange, handleBlur }) => (
+          <Form>
+            <StyledInput
+              style={{ width: '500px' }}
+              placeholder="prize name"
+              type="text"
+              name="name"
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <p />
 
-          <StyledInput
-            type="number"
-            name="cost"
-            placeholder="cost"
-            value={values.cost}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <p />
-          <StyledTextarea
-            placeholder="description"
-            type="textarea"
-            name="description"
-            value={values.description}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <StyledButton type="submit">Add price</StyledButton>
-        </Form>
-      )}
-    </Formik>
-  </StyledWrapper>
+            <StyledInput
+              type="number"
+              name="cost"
+              placeholder="cost"
+              value={values.cost}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <p />
+            <StyledTextarea
+              placeholder="description"
+              type="textarea"
+              name="description"
+              value={values.description}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <StyledButton type="submit">Add price</StyledButton>
+          </Form>
+        )}
+      </Formik>
+    </StyledWrapper>
+  </CSSTransition>
 );
 
 export default AddPrizeModal;

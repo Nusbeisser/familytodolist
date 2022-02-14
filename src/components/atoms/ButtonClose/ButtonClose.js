@@ -9,6 +9,7 @@ const ButtonClose = styled.button`
   background-size: 100%;
   border: none;
   border-radius: 50px;
+  cursor: pointer;
 `;
 
 export default ButtonClose;

@@ -191,7 +191,14 @@ const user = {
     });
   },
 
-  userRegister: (req, res) => {
+  userRegister: async (req, res) => {
+    if (!req.body.username || !req.body.password) {
+      return res.status(500).send('Username and password cannot be blank')
+    }
+    const existUsername = await User.findOne({ username: req.body.username });
+    if (existUsername) {
+      return res.status(500).send('Username taken');
+    }
     console.log(req.body.username, req.body.password, req.body.accessLevel, req.body.userID);
     User.register(
       new User({

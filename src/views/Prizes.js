@@ -6,7 +6,7 @@ import MainTemplate from '../templates/MainTemplate';
 import PrizesContainer from '../components/atoms/PrizesContainer/PrizesContainer';
 import Button from '../components/atoms/Button/Button';
 import AddPrizeModal from '../components/organisms/AssPrizeModal/AddPrizeModal';
-
+import '../components/molecules/AddAccount/AddAccount.css';
 import {
   addPrize as addPrizeAction,
   fetchPrizes as fetchPrizesAction,
@@ -71,7 +71,7 @@ class Prizes extends React.Component {
             <StyledButton onClick={() => this.showModal()}>Add prize</StyledButton>
           </StyledButtonMaring>
         ) : null}
-        {isModalOpen ? <AddPrizeModal addPrize={addPrize} hideModal={this.hideModal} /> : null}
+        <AddPrizeModal addPrize={addPrize} hideModal={this.hideModal} isModalOpen={isModalOpen} />
         <StyledWrapper>
           {prizes.map(({ _id, name, description, cost }) => (
             <PrizesContainer

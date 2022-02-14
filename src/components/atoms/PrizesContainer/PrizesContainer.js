@@ -32,6 +32,11 @@ const StyledDeleteIcon = styled.img`
   cursor: pointer;
   align-self: center;
   margin: 0 auto;
+  transition: 0.3s;
+
+  :hover {
+    opacity: 0.5;
+  }
 `;
 const StyledIcon = styled.div`
   position: flex;
@@ -98,7 +103,11 @@ const PrizesContainer = ({
           points >= cost ? (
             <StyledDeleteIcon
               src={prizeIcon}
-              onClick={() => purchasePrize(id, name, cost, description)}
+              onClick={() =>
+                confirm(`Do you want to exchange points for ${name}?`)
+                  ? purchasePrize(id, name, cost, description)
+                  : null
+              }
             />
           ) : (
             <StyledIcon>Not enough points</StyledIcon>

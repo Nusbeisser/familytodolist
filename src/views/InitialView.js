@@ -7,7 +7,8 @@ import { Redirect } from 'react-router-dom';
 import Input from '../components/atoms/Input/Input';
 import Button from '../components/atoms/Button/Button';
 import GlobalStyle from '../theme/GlobalStyle';
-import { register as registerAction, authenticate as authenticateAction } from '../actions/index';
+import { register as registerAction } from '../actions/registerActions';
+import { authenticate as authenticateAction } from '../actions/index';
 
 const StyledBackground = styled.div`
   position: relative;
@@ -23,8 +24,8 @@ const StyledWrapper = styled.div`
   height: 540px;
   top: 50%;
   left: 50%;
-  margin-top: -250px;
-  margin-left: -220px;
+  margin-top: -270px;
+  margin-left: -250px;
   align-items: center;
   text-align: center;
   border-radius: 20px;
@@ -45,19 +46,49 @@ const StyledToggleFunc = styled.div`
 class InitialView extends React.Component {
   state = {
     isLoginActive: true,
+    usernameError: null,
+    passwordError: null,
   };
 
   render() {
     const { isLoginActive } = this.state;
-    const { userID } = this.props;
+    const { userID, registerMessage } = this.props;
     const { register } = this.props;
     const { authenticate } = this.props;
+    const { usernameError, passwordError } = this.state;
+
+    // const registerValidate = (username, password) => {
+    //   const errors = {};
+    //   const regex = /^[a-zA-Z0-9]+$/i;
+    //   if (!username) {
+    //     errors.username = 'Cannot be blank';
+    //   } else if (!regex.test(username)) {
+    //     errors.username = 'Invalid format, only letters and numbers allowed';
+    //   }
+    //   if (!password) {
+    //     errors.password = 'Cannot be blank';
+    //   } else if (password.length < 5) {
+    //     errors.password = 'Password must be more than 5 characters';
+    //   }
+    //   if (errors.username || errors.password) {
+    //     console.log(errors);
+    //     this.setState({ usernameError: errors.username });
+    //     this.setState({ passwordError: errors.password });
+    //   } else {
+    //     this.setState({ usernameError: null });
+    //     this.setState({ passwordError: null });
+    //     register(username, password);
+    //   }
+    // };
+
     return (
       <>
         <GlobalStyle />
         <StyledBackground>
           <StyledWrapper>
             <h2>FamilyToDoList</h2>
+            <span style={{ color: 'yellowgreen' }}>{registerMessage.message}</span>
+            {registerMessage.message ? <br /> : null}
             Your family task manager.
             <Formik
               initialValues={{ username: '', password: '' }}
@@ -81,6 +112,10 @@ class InitialView extends React.Component {
                         onBlur={handleBlur}
                         value={values.username}
                       />
+                      <br />
+                      <span style={{ color: 'red', fontSize: '15px' }}>
+                        {registerMessage.username}
+                      </span>
                       <p />
                       <Input
                         type="password"
@@ -90,6 +125,11 @@ class InitialView extends React.Component {
                         onBlur={handleBlur}
                         value={values.password}
                       />
+                      <br />
+                      <span style={{ color: 'red', fontSize: '15px' }}>
+                        {registerMessage.password}
+                      </span>
+                      <p />
                       {isLoginActive ? (
                         <StyledButton type="submit">Login</StyledButton>
                       ) : (
@@ -98,18 +138,16 @@ class InitialView extends React.Component {
                     </Form>
                     {isLoginActive ? (
                       <>
-                        <p />
                         Don`t have an account?
                         <StyledToggleFunc onClick={() => this.setState({ isLoginActive: false })}>
-                          <h2>Sign up</h2>
+                          <h3>Sign up</h3>
                         </StyledToggleFunc>
                       </>
                     ) : (
                       <>
-                        <p />
                         Already have an account?
                         <StyledToggleFunc onClick={() => this.setState({ isLoginActive: true })}>
-                          <h2>Log In</h2>
+                          <h3>Log In</h3>
                         </StyledToggleFunc>
                       </>
                     )}
@@ -124,7 +162,10 @@ class InitialView extends React.Component {
   }
 }
 
-const mapStateToProps = ({ userID = null }) => ({ userID });
+const mapStateToProps = ({ userID = null, registerMessage = null }) => ({
+  userID,
+  registerMessage,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   register: (username, password) => dispatch(registerAction(username, password)),

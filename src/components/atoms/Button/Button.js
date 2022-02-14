@@ -16,6 +16,12 @@ const Button = styled.button`
   font-weight: 600;
   font-size: 16px;
   text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+
+  :hover {
+    opacity: 0.8;
+  }
 `;
 
 export default Button;

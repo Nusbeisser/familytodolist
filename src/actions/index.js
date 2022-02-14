@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios';
+import URL from './url';
 
 axios.defaults.withCredentials = true;
 export const ADD_TASK = 'ADD_TASK';
@@ -55,9 +56,6 @@ export const PRIZE_REALIZED_REQUEST = 'PRIZE_REALIZED_REQUEST';
 export const PRIZE_REALIZED_SUCCESS = 'PRIZE_REALIZED_SUCCESS';
 export const PRIZE_REALIZED_FAILURE = 'PRIZE_REALIZED_FAILURE';
 
-const API_URL = 'https://myfamilytodolist.herokuapp.com';
-const LOCAL_HOST = 'http://localhost:9000';
-const URL = API_URL;
 export const addTask = (values, shownAccId) => (dispatch) => {
   dispatch({ type: ADD_TASK_REQUEST });
   axios
@@ -399,8 +397,10 @@ export const register = (username, password) => (dispatch) => {
       dispatch({ type: REGISTER_SUCCESS, payload });
     })
     .catch((err) => {
-      console.log(err);
-      dispatch({ type: REGISTER_FAILURE });
+      console.log(err.response.data);
+      // console.log(response);
+      const message = err.response.data;
+      dispatch({ type: REGISTER_FAILURE, message });
     });
 };
 

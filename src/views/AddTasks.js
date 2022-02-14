@@ -120,15 +120,14 @@ class AddTasks extends React.Component {
             shownAccId={shownAccId}
           />
         </StyledCalendarWrapper>
-        {isModalOpen ? (
-          <AddTaskModal
-            hideModal={this.hideModal}
-            isAllDayTaskHandler={this.isAllDayTaskHandler}
-            isAllDayTask={isAllDayTask}
-            addTask={addTask}
-            shownAccId={shownAccId}
-          />
-        ) : null}
+        <AddTaskModal
+          isModalOpen={isModalOpen}
+          hideModal={this.hideModal}
+          isAllDayTaskHandler={this.isAllDayTaskHandler}
+          isAllDayTask={isAllDayTask}
+          addTask={addTask}
+          shownAccId={shownAccId}
+        />
       </>
     ) : (
       <>

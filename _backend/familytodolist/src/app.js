@@ -46,7 +46,7 @@ passport.deserializeUser((id, done) => {
 app.set('trust proxy', 1);
 app.use(
   session({
-    secret: 'roman',
+    secret: 'wonttellyou',
     resave: false,
     saveUninitialized: true,
     // off on localhost, needed on netlify
@@ -56,7 +56,7 @@ app.use(
     },
   }),
 );
-app.use(cookieParser('roman'));
+app.use(cookieParser('wonttellyou'));
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
